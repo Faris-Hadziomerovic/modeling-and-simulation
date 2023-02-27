@@ -27,11 +27,11 @@ void temp() {
 }
 
 String getEvent(int random_number) {
-  Map<bool, String> _switch = {
+  Map<bool, String> switchMap = {
     // 0 <= random_number && random_number <= 15: "Crash",
     0 <= random_number && random_number <= 2: "Request help",
     1 < random_number && random_number <= 900: "Nothing"
   };
 
-  return _switch[true]!;
+  return switchMap[true]!;
 }

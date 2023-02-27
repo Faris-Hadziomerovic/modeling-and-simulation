@@ -85,7 +85,7 @@ int getPeakInterarrivalTime(int randomNumber) {
   return result;
 }
 
-Map<String, List<int>> getArrivalData() {
+Map<String, List<int>> getArrivalData({bool printData = false}) {
   final random = Random();
   final allInterarrivalTimes = <int>[];
   final normalInterarrivalTimes = <int>[];
@@ -118,17 +118,19 @@ Map<String, List<int>> getArrivalData() {
     allArrivalTimes.add(arrivalTime);
   } while (allArrivalTimes.last < 830);
 
-  printArrivalData(
-    // allArrivalTimes: allArrivalTimes,
-    // normalArrivalTimes: normalArrivalTimes,
-    // peakArrivalTimes: peakArrivalTimes,
-    allArrivalTimes: allArrivalTimes.map((e) => e + 480).toList(),
-    normalArrivalTimes: normalArrivalTimes.map((e) => e + 480).toList(),
-    peakArrivalTimes: peakArrivalTimes.map((e) => e + 480).toList(),
-    allInterarrivalTimes: allInterarrivalTimes,
-    normalInterarrivalTimes: normalInterarrivalTimes,
-    peakInterarrivalTimes: peakInterarrivalTimes,
-  );
+  if (printData) {
+    printArrivalData(
+      // allArrivalTimes: allArrivalTimes,
+      // normalArrivalTimes: normalArrivalTimes,
+      // peakArrivalTimes: peakArrivalTimes,
+      allArrivalTimes: allArrivalTimes.map((e) => e + 480).toList(),
+      normalArrivalTimes: normalArrivalTimes.map((e) => e + 480).toList(),
+      peakArrivalTimes: peakArrivalTimes.map((e) => e + 480).toList(),
+      allInterarrivalTimes: allInterarrivalTimes,
+      normalInterarrivalTimes: normalInterarrivalTimes,
+      peakInterarrivalTimes: peakInterarrivalTimes,
+    );
+  }
 
   final normalizedArrivalTimes = allArrivalTimes.map((e) => e + 480).toList();
   final normalizedNormalArrivalTimes = normalArrivalTimes.map((e) => e + 480).toList();

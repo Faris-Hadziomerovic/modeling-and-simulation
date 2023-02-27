@@ -1,4 +1,84 @@
-void main() {}
+import 'constants/arrival_constants.dart';
+import 'data/interarrival_time.dart';
+import 'data/workers.dart';
+import 'model/worker.dart';
+
+void main() {
+  final workers = Workers();
+  final John = workers.John;
+  final Baker = workers.Baker;
+  final Able = workers.Able;
+
+  int? customer;
+
+  final queue = <int>[];
+  final arrivalData = getArrivalData();
+  final arrivalsMap = arrivalData[Arrival.normalTimes]!.asMap().map(
+        (key, value) => MapEntry(value, key),
+      );
+
+  print('\n--------------------------------------------\n');
+  print('Arrivals map: ');
+  print(arrivalsMap);
+  print('\n--------------------------------------------\n');
+
+  // from 8:00 to 22:00
+  for (var i = 480; i < 1320; i++) {
+    workers.synchronizeTime(currentMinute: i);
+
+    customer = arrivalsMap[i];
+
+    if (customer != null) {
+      // adds customer at the end of the queue
+      queue.add(customer);
+    }
+
+    // true is it's currently Able's shift
+    if (Able.isWorking(i)) {
+      doWork(
+        worker: Able,
+        currentMinute: i,
+        queue: queue,
+      );
+    }
+
+    // true is it's currently Baker's shift
+    if (Baker.isWorking(i)) {
+      doWork(
+        worker: Baker,
+        currentMinute: i,
+        queue: queue,
+      );
+    }
+
+    // true is it's currently John's shift
+    if (John.isWorking(i)) {
+      doWork(
+        worker: John,
+        currentMinute: i,
+        queue: queue,
+      );
+    }
+  }
+}
+
+void doWork({
+  required Worker worker,
+  required int currentMinute,
+  required List<int> queue,
+}) {
+  if (worker.isNotBusy) {
+    if (queue.isNotEmpty) {
+      worker.assignCustomer(currentMinute);
+      queue.removeAt(0);
+    } else {
+      worker.incrementIdleTime();
+    }
+  } else {
+    worker.incrementBusyTime();
+  }
+}
+
 
 // opens:    8:00  |  480 |   0
 // closes:  22:00  | 1320 | 840
