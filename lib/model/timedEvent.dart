@@ -2,7 +2,6 @@ class TimedEvent {
   final String name;
   final int startTime;
   final int endTime;
-  // bool active = false;
 
   const TimedEvent({
     required this.name,

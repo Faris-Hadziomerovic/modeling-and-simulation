@@ -38,15 +38,16 @@ class Worker {
     }
   }
 
-  /// Sets the workers <code>busy</code> status to <code>true</code>
-  void assignCustomer(int currentMinute) {
+  /// Sets the workers <i>busy</i> status to <code>true</code>
+  void assignCustomer({required int currentMinute, bool printUpdate = false}) {
     final serviceTime = _generateServiceTime();
     _freeAt = currentMinute + serviceTime;
     _busy = true;
     incrementBusyTime();
+    print('$name was assigned a customer at $currentMinute with a service time of $serviceTime');
   }
 
-  /// Prints all the worker information.
+  /// Prints all the worker's information.
   void printStatus(int? currentMinute) {
     if (currentMinute != null) print('Current time: $currentMinute');
     print('Name: $name');
@@ -57,8 +58,13 @@ class Worker {
     print('Service time (addition) bonus: $speedBonus');
   }
 
-  /// Generates service time for the worker according to their <code>speedBonus</code>
+  /// Generates service time for the worker according to their <i>speedBonus</i>
   int _generateServiceTime() {
     return getServiceTime(Random().nextInt(100) + speedBonus);
+  }
+
+  @override
+  String toString() {
+    return name;
   }
 }

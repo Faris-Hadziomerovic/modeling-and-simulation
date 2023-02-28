@@ -22,7 +22,7 @@ class Workers {
 
     Able = Worker(
       name: 'Able',
-      startTime: 960, // 14:00
+      startTime: 960, // 16:00
       endTime: 1320, // 22:00
       speedBonus: -3, // this will speed him up
     );
@@ -33,12 +33,18 @@ class Workers {
     Baker.refreshBusyStatus(currentMinute);
     Able.refreshBusyStatus(currentMinute);
 
-    if (currentMinute % 10 == 0) {
+    if (John.isBusy && Baker.isBusy || Baker.isBusy && Able.isBusy) {
       print('\n------------------------------------------------\n');
+      print('Time: $currentMinute minute.');
       printWorkingStatus(currentMinute: currentMinute);
       printBusyStatus();
       print('\n------------------------------------------------\n');
     }
+  }
+
+  bool haveOverlap({required int currentMinute}) {
+    return John.isWorking(currentMinute) && Baker.isWorking(currentMinute) ||
+        Able.isWorking(currentMinute) && Baker.isWorking(currentMinute);
   }
 
   void printWorkingStatus({required int currentMinute}) {
