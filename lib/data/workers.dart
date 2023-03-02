@@ -31,7 +31,7 @@ class Workers {
       name: 'John',
       startTime: 480, // 8:00
       endTime: 840, // 14:00
-      speedBonus: 3, // this will slow him down
+      speedBonus: 10, // this will slow him down
     );
 
     Baker = Worker(
@@ -45,7 +45,7 @@ class Workers {
       name: 'Able',
       startTime: 960, // 16:00
       endTime: 1320, // 22:00
-      speedBonus: -3, // this will speed him up
+      speedBonus: -10, // this will speed him up
     );
   }
 

@@ -91,15 +91,24 @@ class ArrivalData {
   /// This method gives more probability for lower numbers to represent denser interarrival times.
   int getPeakInterarrivalTime(int randomNumber) {
     final Map<bool, int> peakInterarrivalMap = {
-      randomNumber < 10: 1,
-      10 <= randomNumber && randomNumber < 26: 2,
-      26 <= randomNumber && randomNumber < 46: 3,
-      46 <= randomNumber && randomNumber < 66: 4,
-      66 <= randomNumber && randomNumber < 81: 5,
-      81 <= randomNumber && randomNumber < 91: 6,
-      91 <= randomNumber && randomNumber < 98: 7,
-      98 <= randomNumber: 8,
+      randomNumber < 25: 1,
+      25 <= randomNumber && randomNumber < 50: 2,
+      50 <= randomNumber && randomNumber < 75: 3,
+      75 <= randomNumber && randomNumber < 85: 4,
+      85 <= randomNumber && randomNumber < 90: 5,
+      90 <= randomNumber && randomNumber < 98: 6,
+      98 <= randomNumber: 7,
     };
+    // final Map<bool, int> peakInterarrivalMap = {
+    //   randomNumber < 10: 1,
+    //   10 <= randomNumber && randomNumber < 26: 2,
+    //   26 <= randomNumber && randomNumber < 46: 3,
+    //   46 <= randomNumber && randomNumber < 66: 4,
+    //   66 <= randomNumber && randomNumber < 81: 5,
+    //   81 <= randomNumber && randomNumber < 91: 6,
+    //   91 <= randomNumber && randomNumber < 98: 7,
+    //   98 <= randomNumber: 8,
+    // };
 
     final result = peakInterarrivalMap[true] as int;
 
@@ -167,7 +176,7 @@ class ArrivalData {
     }
   }
 
-  void printArrivalData() {
+  void printArrivalData({bool printLists = false}) {
     final arrivalsCount = _allArrivalTimes.length;
     final normalArrivalsCount = _normalArrivalTimes.length;
     final peakArrivalsCount = _peakArrivalTimes.length;
@@ -215,32 +224,40 @@ class ArrivalData {
     print('Total number of arrivals: ');
     print(_allArrivalTimes.length);
 
-    print('Chronologically ordered interarrival times: ');
-    print(allInterarrivalTimes);
+    if (printLists) {
+      print('Chronologically ordered interarrival times: ');
+      print(allInterarrivalTimes);
 
-    print('Customer arrival times: ');
-    print(_allArrivalTimes);
+      print('Customer arrival times: ');
+      print(_allArrivalTimes);
 
-    print('\n-----------------------------------------------------\n');
+      print('\n-----------------------------------------------------\n');
+    }
 
     print('Number of arrivals during normal hours: ');
     print(_normalArrivalTimes.length);
 
-    print('Chronologically ordered interarrival times during normal hours: ');
-    print(normalInterarrivalTimes);
+    if (printLists) {
+      print('Chronologically ordered interarrival times during normal hours: ');
+      print(normalInterarrivalTimes);
 
-    print('Customer arrival times during normal hours: ');
-    print(_normalArrivalTimes);
+      print('Customer arrival times during normal hours: ');
+      print(_normalArrivalTimes);
 
-    print('\n-----------------------------------------------------\n');
+      print('\n-----------------------------------------------------\n');
+    }
 
     print('Number of arrivals during peak hours: ');
     print(_peakArrivalTimes.length);
 
-    print('Chronologically ordered interarrival times during peak hours: ');
-    print(peakInterarrivalTimes);
+    if (printLists) {
+      print('Chronologically ordered interarrival times during peak hours: ');
+      print(peakInterarrivalTimes);
 
-    print('Customer arrival times during peak hours: ');
-    print(_peakArrivalTimes);
+      print('Customer arrival times during peak hours: ');
+      print(_peakArrivalTimes);
+    }
+
+    print('\n-----------------------------------------------------\n');
   }
 }

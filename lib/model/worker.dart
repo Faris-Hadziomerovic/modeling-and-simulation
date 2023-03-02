@@ -70,10 +70,10 @@ class Worker {
 
   /// Generates service time for the worker according to their <i>speedBonus</i>
   int _generateServiceTime() {
-    return getServiceTime(Random().nextInt(100) + speedBonus);
+    return ServiceTimeData.getServiceTime(Random().nextInt(100) + speedBonus);
   }
 
-  /// Prints all the worker's information.
+  /// Prints all the worker's information and their current status.
   void printStatus(int? currentMinute) {
     if (currentMinute != null) print('Current time: $currentMinute');
     print('Name: $name');
@@ -114,7 +114,5 @@ class Worker {
   }
 
   @override
-  String toString() {
-    return name;
-  }
+  String toString() => name;
 }

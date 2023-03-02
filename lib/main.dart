@@ -4,6 +4,7 @@ import './data/workers.dart';
 import './model/customer.dart';
 import './model/queue.dart';
 import './model/worker.dart';
+import './data/service_time.dart';
 
 void main() {
   final workers = Workers();
@@ -25,6 +26,8 @@ void main() {
     arrivalsMap: arrivalsMap,
   );
 
+  ServiceTimeData.printDistributionData();
+  arrivalData.printArrivalData();
   queue.printStatistics();
   workers.printStatistics();
 }
@@ -94,7 +97,7 @@ void doWork({
       );
       queue.remove(
         currentMinute: currentMinute,
-        printUpdates: false,
+        printUpdates: true,
       );
     } else {
       worker.incrementIdleTime();
