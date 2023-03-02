@@ -19,7 +19,6 @@ class ArrivalData {
     19: 0,
     20: 0,
     21: 0,
-    22: 0,
   };
   Map<int, int> allCounter = {
     1: 0,
