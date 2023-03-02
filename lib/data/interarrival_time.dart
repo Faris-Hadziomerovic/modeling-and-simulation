@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import '../other/helpers.dart';
-import 'timed_events.dart';
+import './timed_events.dart';
 
 class ArrivalData {
   Map<int, int> allCounter = {
@@ -146,7 +146,7 @@ class ArrivalData {
 
       allInterarrivalTimes.add(interarrivalTime);
       _allArrivalTimes.add(arrivalTime);
-    } while (_allArrivalTimes.last < TimedEvents.openHours.endTime - 480);
+    } while (_allArrivalTimes.last < TimedEvents.openHours.endTime - 480 - 10);
 
     if (printData) printArrivalData();
   }

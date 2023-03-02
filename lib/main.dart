@@ -1,9 +1,9 @@
-import 'data/interarrival_time.dart';
-import 'data/timed_events.dart';
-import 'data/workers.dart';
-import 'model/customer.dart';
-import 'model/queue.dart';
-import 'model/worker.dart';
+import './data/interarrival_time.dart';
+import './data/timed_events.dart';
+import './data/workers.dart';
+import './model/customer.dart';
+import './model/queue.dart';
+import './model/worker.dart';
 
 void main() {
   final workers = Workers();
@@ -15,7 +15,7 @@ void main() {
   final arrivalsMap = arrivalData.arrivalTimes.asMap().map(
         (key, value) => MapEntry(
           value,
-          Customer(arrivalTime: value, ordinalNumber: key),
+          Customer(arrivalTime: value, ordinalNumber: key + 1),
         ),
       );
 
@@ -25,9 +25,8 @@ void main() {
     arrivalsMap: arrivalsMap,
   );
 
-  print(queue);
-  print(
-      'The queue was the longest at ${queue.minuteOfMaxLength} minutes with a length of ${queue.maxLength} customers.');
+  queue.printStatistics();
+  workers.printStatistics();
 }
 
 void eventLoop({
@@ -53,6 +52,8 @@ void eventLoop({
       // adds customer at the end of the queue
       queue.add(customer, currentMinute: i);
     }
+
+    queue.recordQueueLength();
 
     if (Able.isWorking(i)) {
       doWork(
