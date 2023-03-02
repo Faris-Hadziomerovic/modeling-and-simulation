@@ -4,6 +4,23 @@ import '../other/helpers.dart';
 import './timed_events.dart';
 
 class ArrivalData {
+  Map<int, int> customersPerHourCounter = {
+    8: 0,
+    9: 0,
+    10: 0,
+    11: 0,
+    12: 0,
+    13: 0,
+    14: 0,
+    15: 0,
+    16: 0,
+    17: 0,
+    18: 0,
+    19: 0,
+    20: 0,
+    21: 0,
+    22: 0,
+  };
   Map<int, int> allCounter = {
     1: 0,
     2: 0,
@@ -63,8 +80,8 @@ class ArrivalData {
   /// Returns an <code>int</code> representing number of minutes between arrivals based on the <i>randomNumber</i> passed.
   int getInterarrivalTime(int randomNumber) {
     final Map<bool, int> interarrivalMap = {
-      randomNumber < 3: 1,
-      3 <= randomNumber && randomNumber < 10: 2,
+      randomNumber < 5: 1,
+      5 <= randomNumber && randomNumber < 10: 2,
       10 <= randomNumber && randomNumber < 21: 3,
       21 <= randomNumber && randomNumber < 35: 4,
       35 <= randomNumber && randomNumber < 50: 5,
@@ -155,6 +172,7 @@ class ArrivalData {
 
       allInterarrivalTimes.add(interarrivalTime);
       _allArrivalTimes.add(arrivalTime);
+      _incrementCustomerPerHour(arrivalTime: arrivalTime);
     } while (_allArrivalTimes.last < TimedEvents.openHours.endTime - 480 - 10);
 
     if (printData) printArrivalData();
@@ -174,6 +192,10 @@ class ArrivalData {
       normalCounter[i] = 0;
       peakCounter[i] = 0;
     }
+
+    for (var i = 8; i < 22; i++) {
+      customersPerHourCounter[i] = 0;
+    }
   }
 
   void printArrivalData({bool printLists = false}) {
@@ -181,7 +203,7 @@ class ArrivalData {
     final normalArrivalsCount = _normalArrivalTimes.length;
     final peakArrivalsCount = _peakArrivalTimes.length;
 
-    print('\n-----------------------------------------------------\n');
+    print('---------------------------------------------------------------------------');
 
     print('Normal - total hours ratio:  10/14  \t --> \t ${Helpers.toPercentage(14, 10)}');
     print('Peak - total hours ratio:     4/14  \t --> \t ${Helpers.toPercentage(14, 4)}');
@@ -192,7 +214,7 @@ class ArrivalData {
       'Peak - total hours arrival number ratio:   $peakArrivalsCount/$arrivalsCount  \t --> \t ${Helpers.toPercentage(arrivalsCount, peakArrivalsCount)}',
     );
 
-    print('\n-----------------------------------------------------\n');
+    print('---------------------------------------------------------------------------');
 
     print('Total interarrival time distributions: ');
     for (var i = 1; i <= 8; i++) {
@@ -201,7 +223,7 @@ class ArrivalData {
       );
     }
 
-    print('\n-----------------------------------------------------\n');
+    print('---------------------------------------------------------------------------');
 
     print('Normal interarrival time distributions: ');
     for (var i = 1; i <= 8; i++) {
@@ -210,7 +232,7 @@ class ArrivalData {
       );
     }
 
-    print('\n-----------------------------------------------------\n');
+    print('---------------------------------------------------------------------------');
 
     print('Peak interarrival time distributions: ');
     for (var i = 1; i <= 8; i++) {
@@ -219,7 +241,14 @@ class ArrivalData {
       );
     }
 
-    print('\n-----------------------------------------------------\n');
+    print('---------------------------------------------------------------------------');
+
+    print('Customers per hour distributions: ');
+    for (var i = 8; i < 22; i++) {
+      print('$i:00 - ${i + 1}:00 --> ${customersPerHourCounter[i]} customers');
+    }
+
+    print('---------------------------------------------------------------------------');
 
     print('Total number of arrivals: ');
     print(_allArrivalTimes.length);
@@ -231,7 +260,7 @@ class ArrivalData {
       print('Customer arrival times: ');
       print(_allArrivalTimes);
 
-      print('\n-----------------------------------------------------\n');
+      print('---------------------------------------------------------------------------');
     }
 
     print('Number of arrivals during normal hours: ');
@@ -244,7 +273,7 @@ class ArrivalData {
       print('Customer arrival times during normal hours: ');
       print(_normalArrivalTimes);
 
-      print('\n-----------------------------------------------------\n');
+      print('---------------------------------------------------------------------------');
     }
 
     print('Number of arrivals during peak hours: ');
@@ -258,6 +287,21 @@ class ArrivalData {
       print(_peakArrivalTimes);
     }
 
-    print('\n-----------------------------------------------------\n');
+    print('---------------------------------------------------------------------------');
+  }
+
+  /// Increments counter for customers per hour map.
+  /// <i>isNormalized</i> tells the function if it should shift the arrival time by 480.
+  /// If it is <code>true</code> that means the parameter is normalized and should NOT be shifted.
+  void _incrementCustomerPerHour({required int arrivalTime, bool isNormalized = false}) {
+    arrivalTime += isNormalized ? 0 : 480;
+
+    final hour = (arrivalTime) ~/ 60;
+
+    var customerCount = customersPerHourCounter[hour] ?? 0;
+
+    customerCount++;
+
+    customersPerHourCounter[hour] = customerCount;
   }
 }
