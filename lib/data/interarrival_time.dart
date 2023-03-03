@@ -81,12 +81,12 @@ class ArrivalData {
     final Map<bool, int> interarrivalMap = {
       randomNumber < 5: 1,
       5 <= randomNumber && randomNumber < 10: 2,
-      10 <= randomNumber && randomNumber < 21: 3,
-      21 <= randomNumber && randomNumber < 35: 4,
-      35 <= randomNumber && randomNumber < 50: 5,
-      50 <= randomNumber && randomNumber < 75: 6,
-      75 <= randomNumber && randomNumber < 90: 7,
-      90 <= randomNumber: 8,
+      10 <= randomNumber && randomNumber < 20: 3,
+      20 <= randomNumber && randomNumber < 40: 4,
+      40 <= randomNumber && randomNumber < 60: 5,
+      60 <= randomNumber && randomNumber < 80: 6,
+      80 <= randomNumber && randomNumber < 95: 7,
+      95 <= randomNumber: 8,
     };
 
     final result = interarrivalMap[true] as int;
@@ -108,8 +108,8 @@ class ArrivalData {
   int getPeakInterarrivalTime(int randomNumber) {
     final Map<bool, int> peakInterarrivalMap = {
       randomNumber < 25: 1,
-      25 <= randomNumber && randomNumber < 50: 2,
-      50 <= randomNumber && randomNumber < 75: 3,
+      25 <= randomNumber && randomNumber < 55: 2,
+      55 <= randomNumber && randomNumber < 75: 3,
       75 <= randomNumber && randomNumber < 85: 4,
       85 <= randomNumber && randomNumber < 90: 5,
       90 <= randomNumber && randomNumber < 98: 6,
