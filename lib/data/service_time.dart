@@ -13,7 +13,7 @@ class ServiceTimeData {
   };
 
   static Map<int, int> get serviceTimeDistributionMap => {..._serviceTimeDistributionMap};
-  static int get serviceTimesGenerated {
+  static int get totalServiceTimesGenerated {
     return _serviceTimeDistributionMap.entries.fold(0, (previousValue, mapEntry) => previousValue + mapEntry.value);
   }
 
@@ -42,7 +42,7 @@ class ServiceTimeData {
 
   static void printDistributionData() {
     print('Service time distributions: ');
-    final totalServiceTimes = serviceTimesGenerated;
+    final totalServiceTimes = totalServiceTimesGenerated;
     for (var i = 1; i <= 8; i++) {
       final percentage = Helpers.toPercentage(totalServiceTimes, _serviceTimeDistributionMap[i]);
       print('$i minute: ${_serviceTimeDistributionMap[i]}/$totalServiceTimes  \t --> \t $percentage');
