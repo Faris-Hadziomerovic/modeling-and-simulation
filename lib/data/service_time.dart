@@ -12,13 +12,18 @@ class ServiceTimeData {
     8: 0,
   };
 
+  /// Gets the map of generated service time distributions. Used for statistics.
   static Map<int, int> get serviceTimeDistributionMap => {..._serviceTimeDistributionMap};
+
+  /// Gets the total number of generated service times. Used for statistics.
   static int get totalServiceTimesGenerated {
     return _serviceTimeDistributionMap.entries.fold(0, (previousValue, mapEntry) => previousValue + mapEntry.value);
   }
 
-  /// this is for Baker, the others will get a modifier (John +7, Able -10)
+  /// Generates a service time based on the passed <i>randomNum</i>.  <br>
+  /// Expected range: <code> 0 - 100 </code> <br>
   static int getServiceTime(int randomNum) {
+    // This base table is for Baker, the others should pass the speed bonus penalty modifier.
     final Map<bool, int> switchMap = {
       randomNum < 2: 1,
       2 <= randomNum && randomNum < 15: 2,
@@ -40,6 +45,7 @@ class ServiceTimeData {
     return result;
   }
 
+  /// Prints the service times distribution map in a human-readable format.
   static void printDistributionData() {
     print('Service time distributions: ');
     final totalServiceTimes = totalServiceTimesGenerated;
@@ -49,15 +55,3 @@ class ServiceTimeData {
     }
   }
 }
-
-// OLD MAP
-// final Map<bool, int> switchMap = {
-//   randomNum < 25: 1,
-//   25 <= randomNum && randomNum < 47: 2,
-//   47 <= randomNum && randomNum < 65: 3,
-//   65 <= randomNum && randomNum < 79: 4,
-//   79 <= randomNum && randomNum < 89: 5,
-//   89 <= randomNum && randomNum < 95: 6,
-//   95 <= randomNum && randomNum < 98: 7,
-//   98 <= randomNum: 8,
-// };

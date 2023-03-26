@@ -26,8 +26,8 @@ void main() {
     arrivalsMap: arrivalsMap,
   );
 
-  ServiceTimeData.printDistributionData();
   arrivalData.printArrivalData();
+  ServiceTimeData.printDistributionData();
   queue.printStatistics();
   workers.printStatistics();
 }
