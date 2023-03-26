@@ -1,9 +1,9 @@
 opens:    8:00  |  480 |   0
 closes:  22:00  | 1320 | 840
 
-John works for   6 h  (8:00 - 14:00)   |  time per service (+3)  |
-Baker works for  8 h  (12:00 - 20:00)  |  time per service (0)   |
-Able works for   6 h  (16:00 - 22:00)  |  time per service (-3)  |
+John works for   6 h  ( 8:00 - 14:00)   |  time per service (  +7 )  |
+Baker works for  8 h  (12:00 - 20:00)  |  time per service (   0 )  |
+Able works for   8 h  (14:00 - 22:00)  |  time per service ( -10 )  |
 
 |       Time      |     Minute    |  Shifted Minutes  |
 |   8:00 -  9:00  |   480 -  540  |       0 -  60     |      John starts here
@@ -12,10 +12,10 @@ Able works for   6 h  (16:00 - 22:00)  |  time per service (-3)  |
 |  11:00 - 12:00  |   660 -  720  |     180 - 240     |      
 |  12:00 - 13:00  |   720 -  780  |     240 - 300     |      peak I | Baker starts here
 |  13:00 - 14:00  |   780 -  840  |     300 - 360     |      John ends here
-|  14:00 - 15:00  |   840 -  900  |     360 - 420     |      
+|  14:00 - 15:00  |   840 -  900  |     360 - 420     |      Able starts here
 |  15:00 - 16:00  |   900 -  960  |     420 - 480     |      
-|  16:00 - 17:00  |   960 - 1020  |     480 - 540     |      Able starts here  
-|  17:00 - 18:00  |  1020 - 1080  |     540 - 600     |    peak II starts (17:30 | 1050 | 570)
+|  16:00 - 17:00  |   960 - 1020  |     480 - 540     |        
+|  17:00 - 18:00  |  1020 - 1080  |     540 - 600     |      peak II starts (17:30 | 1050 | 570)
 |  18:00 - 19:00  |  1080 - 1140  |     600 - 660     |      
 |  19:00 - 20:00  |  1140 - 1200  |     660 - 720     |      Baker ends here
 |  20:00 - 21:00  |  1200 - 1260  |     720 - 780     |      peak II ends (20:30 | 1230 | 750)
