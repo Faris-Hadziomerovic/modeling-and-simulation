@@ -1,3 +1,4 @@
+import '../constants/worker_shifts.dart';
 import '../model/worker.dart';
 import '../other/helpers.dart';
 
@@ -29,22 +30,22 @@ class Workers {
   Workers() {
     John = Worker(
       name: 'John',
-      startTime: 480, // 8:00
-      endTime: 840, // 14:00
-      speedBonus: 10, // this will slow him down
+      startTime: WorkerShifts.johnStartTime,
+      endTime: WorkerShifts.johnEndTime,
+      speedBonus: 7, // this will slow him down
     );
 
     Baker = Worker(
       name: 'Baker',
-      startTime: 720, // 12:00
-      endTime: 1200, // 20:00
+      startTime: WorkerShifts.bakerStartTime,
+      endTime: WorkerShifts.bakerEndTime,
       speedBonus: 0,
     );
 
     Able = Worker(
       name: 'Able',
-      startTime: 960, // 16:00
-      endTime: 1320, // 22:00
+      startTime: WorkerShifts.ableStartTime,
+      endTime: WorkerShifts.ableEndTime,
       speedBonus: -10, // this will speed him up
     );
   }
@@ -92,23 +93,23 @@ class Workers {
     print('Combined working time: ${combinedWorkingTime}');
     print('Combined service time: ${combinedServiceTime}');
     print('');
-    print('John\'s part of total work time: ${JohnWorkTimePercentage}');
-    print('Baker\'s part of total work time: ${BakerWorkTimePercentage}');
-    print('Able\'s part of total work time: ${AbleWorkTimePercentage}');
+    print("John's part of total work time: ${JohnWorkTimePercentage}");
+    print("Baker's part of total work time: ${BakerWorkTimePercentage}");
+    print("Able's part of total work time: ${AbleWorkTimePercentage}");
     print('');
     print('Combined busy time: ${combinedBusyTime}');
     print('Busy to work time ratio: ${busyToWorkPercentage}');
     print('');
-    print('John\'s part of combined busy time: ${JohnBusyToCombinedWorkPercentage}');
-    print('Baker\'s part of combined busy time: ${BakerBusyToCombinedWorkPercentage}');
-    print('Able\'s part of combined busy time: ${AbleBusyToCombinedWorkPercentage}');
+    print("John's part of combined busy time: ${JohnBusyToCombinedWorkPercentage}");
+    print("Baker's part of combined busy time: ${BakerBusyToCombinedWorkPercentage}");
+    print("Able's part of combined busy time: ${AbleBusyToCombinedWorkPercentage}");
     print('');
     print('Combined idle time: ${combinedIdleTime}');
     print('Idle to work time ratio: ${idleToWorkPercentage}');
     print('');
-    print('John\'s part of combined idle time: ${JohnIdleToCombinedWorkPercentage}');
-    print('Baker\'s part of combined idle time: ${BakerIdleToCombinedWorkPercentage}');
-    print('Able\'s part of combined idle time: ${AbleIdleToCombinedWorkPercentage}');
+    print("John's part of combined idle time: ${JohnIdleToCombinedWorkPercentage}");
+    print("Baker's part of combined idle time: ${BakerIdleToCombinedWorkPercentage}");
+    print("Able's part of combined idle time: ${AbleIdleToCombinedWorkPercentage}");
     print('---------------------------------------------------------------------------');
   }
 }

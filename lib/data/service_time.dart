@@ -17,7 +17,7 @@ class ServiceTimeData {
     return _serviceTimeDistributionMap.entries.fold(0, (previousValue, mapEntry) => previousValue + mapEntry.value);
   }
 
-  /// this is for Baker, the others will get a modifier (John +10, Able -10)
+  /// this is for Baker, the others will get a modifier (John +7, Able -10)
   static int getServiceTime(int randomNum) {
     final Map<bool, int> switchMap = {
       randomNum < 2: 1,

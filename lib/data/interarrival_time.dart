@@ -79,9 +79,8 @@ class ArrivalData {
   /// Returns an <code>int</code> representing number of minutes between arrivals based on the <i>randomNumber</i> passed.
   int getInterarrivalTime(int randomNumber) {
     final Map<bool, int> interarrivalMap = {
-      randomNumber < 5: 1,
-      5 <= randomNumber && randomNumber < 10: 2,
-      10 <= randomNumber && randomNumber < 20: 3,
+      randomNumber < 5: 2,
+      5 <= randomNumber && randomNumber < 20: 3,
       20 <= randomNumber && randomNumber < 40: 4,
       40 <= randomNumber && randomNumber < 60: 5,
       60 <= randomNumber && randomNumber < 80: 6,
@@ -107,23 +106,20 @@ class ArrivalData {
   /// This method gives more probability for lower numbers to represent denser interarrival times.
   int getPeakInterarrivalTime(int randomNumber) {
     final Map<bool, int> peakInterarrivalMap = {
-      randomNumber < 25: 1,
-      25 <= randomNumber && randomNumber < 55: 2,
+      randomNumber < 30: 1,
+      30 <= randomNumber && randomNumber < 55: 2,
       55 <= randomNumber && randomNumber < 75: 3,
-      75 <= randomNumber && randomNumber < 85: 4,
-      85 <= randomNumber && randomNumber < 90: 5,
-      90 <= randomNumber && randomNumber < 98: 6,
-      98 <= randomNumber: 7,
+      75 <= randomNumber && randomNumber < 90: 4,
+      90 <= randomNumber: 5,
     };
+
     // final Map<bool, int> peakInterarrivalMap = {
-    //   randomNumber < 10: 1,
-    //   10 <= randomNumber && randomNumber < 26: 2,
-    //   26 <= randomNumber && randomNumber < 46: 3,
-    //   46 <= randomNumber && randomNumber < 66: 4,
-    //   66 <= randomNumber && randomNumber < 81: 5,
-    //   81 <= randomNumber && randomNumber < 91: 6,
-    //   91 <= randomNumber && randomNumber < 98: 7,
-    //   98 <= randomNumber: 8,
+    //   randomNumber < 30: 1,
+    //   30 <= randomNumber && randomNumber < 55: 2,
+    //   55 <= randomNumber && randomNumber < 75: 3,
+    //   75 <= randomNumber && randomNumber < 85: 4,
+    //   85 <= randomNumber && randomNumber < 95: 5,
+    //   95 <= randomNumber: 6,
     // };
 
     final result = peakInterarrivalMap[true] as int;

@@ -1,3 +1,4 @@
+import '../constants/worker_shifts.dart';
 import '../model/timedEvent.dart';
 
 class TimedEvents {
@@ -21,14 +22,14 @@ class TimedEvents {
 
   static const overlap1 = TimedEvent(
     name: 'Overlap 1: John-Baker',
-    startTime: 720, // 12:00
-    endTime: 840, // 24:00
+    startTime: WorkerShifts.bakerStartTime,
+    endTime: WorkerShifts.johnEndTime,
   );
 
   static const overlap2 = TimedEvent(
     name: 'Overlap 2: Able-Baker',
-    startTime: 960, // 16:00
-    endTime: 1200, // 20:00
+    startTime: WorkerShifts.ableStartTime,
+    endTime: WorkerShifts.bakerEndTime,
   );
 
   /// Returns <code>true</code> if the peak event is active for the <i>currentMinute</i>.

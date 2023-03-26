@@ -11,7 +11,7 @@ void main() {
 
   final queue = CustomerQueue();
 
-  final arrivalData = ArrivalData();
+  final arrivalData = ArrivalData(seed: 100);
 
   final arrivalsMap = arrivalData.arrivalTimes.asMap().map(
         (key, value) => MapEntry(

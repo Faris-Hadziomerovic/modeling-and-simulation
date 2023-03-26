@@ -33,6 +33,7 @@ class CustomerQueue {
 
   CustomerQueue();
 
+  /// Takes note of the current queue length and how many times it was recorded for average length statistics.
   void recordQueueLength() {
     _queueLengthAccumulator += length;
     _queueLengthRecordedTimes++;
@@ -63,6 +64,11 @@ class CustomerQueue {
 
     _totalWaitingTime += waitingTime;
 
+    if (printUpdates) {
+      print('Customer removed from queue at minute: $currentMinute');
+      print('Current queue length: ${_queue.length}');
+    }
+
     if (waitingTime > _longestWaitingTime) {
       _longestWaitingTime = waitingTime;
       _timeOfArrivalOfLongestWaitingCustomer = customer.arrivalTime;
@@ -73,11 +79,6 @@ class CustomerQueue {
         print('Time of arrival: ${_timeOfArrivalOfLongestWaitingCustomer}');
         print('Time of exit: ${_timeOfExitOfLongestWaitingCustomer}');
       }
-    }
-
-    if (printUpdates) {
-      print('Customer removed from queue at minute: $currentMinute');
-      print('Current queue length: ${_queue.length}');
     }
 
     return customer;
