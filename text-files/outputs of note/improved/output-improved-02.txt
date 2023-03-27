@@ -1,0 +1,601 @@
+Customer removed from queue at minute: 483
+Current queue length: 0
+Customer removed from queue at minute: 490
+Current queue length: 0
+Longest waiting time yet: 2 minutes
+Time of arrival: 488
+Time of exit: 490
+Customer removed from queue at minute: 494
+Current queue length: 0
+Customer removed from queue at minute: 501
+Current queue length: 0
+Longest waiting time yet: 3 minutes
+Time of arrival: 498
+Time of exit: 501
+Customer removed from queue at minute: 505
+Current queue length: 0
+Customer removed from queue at minute: 509
+Current queue length: 0
+Customer removed from queue at minute: 515
+Current queue length: 0
+Customer removed from queue at minute: 522
+Current queue length: 0
+Customer removed from queue at minute: 527
+Current queue length: 0
+Customer removed from queue at minute: 533
+Current queue length: 1
+Customer removed from queue at minute: 540
+Current queue length: 2
+Longest waiting time yet: 8 minutes
+Time of arrival: 532
+Time of exit: 540
+Customer removed from queue at minute: 545
+Current queue length: 2
+Longest waiting time yet: 9 minutes
+Time of arrival: 536
+Time of exit: 545
+Customer removed from queue at minute: 548
+Current queue length: 1
+Customer removed from queue at minute: 556
+Current queue length: 2
+Longest waiting time yet: 13 minutes
+Time of arrival: 543
+Time of exit: 556
+Customer removed from queue at minute: 559
+Current queue length: 1
+Customer removed from queue at minute: 565
+Current queue length: 1
+Customer removed from queue at minute: 573
+Current queue length: 2
+Customer removed from queue at minute: 578
+Current queue length: 2
+Customer removed from queue at minute: 581
+Current queue length: 2
+Customer removed from queue at minute: 585
+Current queue length: 1
+Customer removed from queue at minute: 588
+Current queue length: 1
+Customer removed from queue at minute: 593
+Current queue length: 1
+Customer removed from queue at minute: 598
+Current queue length: 1
+Customer removed from queue at minute: 603
+Current queue length: 1
+Customer removed from queue at minute: 611
+Current queue length: 2
+Customer removed from queue at minute: 616
+Current queue length: 2
+Customer removed from queue at minute: 620
+Current queue length: 2
+Customer removed from queue at minute: 624
+Current queue length: 2
+Customer removed from queue at minute: 631
+Current queue length: 3
+Longest waiting time yet: 14 minutes
+Time of arrival: 617
+Time of exit: 631
+Customer removed from queue at minute: 633
+Current queue length: 2
+Customer removed from queue at minute: 639
+Current queue length: 2
+Customer removed from queue at minute: 647
+Current queue length: 4
+Longest waiting time yet: 16 minutes
+Time of arrival: 631
+Time of exit: 647
+Customer removed from queue at minute: 651
+Current queue length: 4
+Customer removed from queue at minute: 656
+Current queue length: 4
+Customer removed from queue at minute: 660
+Current queue length: 4
+Longest waiting time yet: 17 minutes
+Time of arrival: 643
+Time of exit: 660
+Customer removed from queue at minute: 664
+Current queue length: 3
+Customer removed from queue at minute: 669
+Current queue length: 3
+Longest waiting time yet: 19 minutes
+Time of arrival: 650
+Time of exit: 669
+Customer removed from queue at minute: 671
+Current queue length: 2
+Customer removed from queue at minute: 676
+Current queue length: 3
+Customer removed from queue at minute: 683
+Current queue length: 3
+Customer removed from queue at minute: 690
+Current queue length: 3
+Customer removed from queue at minute: 693
+Current queue length: 2
+Customer removed from queue at minute: 698
+Current queue length: 2
+Customer removed from queue at minute: 704
+Current queue length: 3
+Customer removed from queue at minute: 708
+Current queue length: 2
+Customer removed from queue at minute: 710
+Current queue length: 1
+Customer removed from queue at minute: 715
+Current queue length: 1
+Customer removed from queue at minute: 719
+Current queue length: 1
+Customer removed from queue at minute: 720
+Current queue length: 1
+Customer removed from queue at minute: 722
+Current queue length: 0
+Customer removed from queue at minute: 725
+Current queue length: 1
+Customer removed from queue at minute: 727
+Current queue length: 1
+Customer removed from queue at minute: 727
+Current queue length: 0
+Customer removed from queue at minute: 733
+Current queue length: 1
+Customer removed from queue at minute: 733
+Current queue length: 0
+Customer removed from queue at minute: 737
+Current queue length: 0
+Customer removed from queue at minute: 740
+Current queue length: 0
+Customer removed from queue at minute: 741
+Current queue length: 0
+Customer removed from queue at minute: 743
+Current queue length: 0
+Customer removed from queue at minute: 745
+Current queue length: 0
+Customer removed from queue at minute: 749
+Current queue length: 0
+Customer removed from queue at minute: 750
+Current queue length: 0
+Customer removed from queue at minute: 752
+Current queue length: 0
+Customer removed from queue at minute: 755
+Current queue length: 0
+Customer removed from queue at minute: 758
+Current queue length: 0
+Customer removed from queue at minute: 760
+Current queue length: 0
+Customer removed from queue at minute: 762
+Current queue length: 0
+Customer removed from queue at minute: 766
+Current queue length: 0
+Customer removed from queue at minute: 768
+Current queue length: 0
+Customer removed from queue at minute: 771
+Current queue length: 0
+Customer removed from queue at minute: 773
+Current queue length: 1
+Customer removed from queue at minute: 775
+Current queue length: 1
+Customer removed from queue at minute: 777
+Current queue length: 0
+Customer removed from queue at minute: 781
+Current queue length: 0
+Customer removed from queue at minute: 785
+Current queue length: 0
+Customer removed from queue at minute: 789
+Current queue length: 0
+Customer removed from queue at minute: 791
+Current queue length: 0
+Customer removed from queue at minute: 795
+Current queue length: 0
+Customer removed from queue at minute: 797
+Current queue length: 0
+Customer removed from queue at minute: 803
+Current queue length: 0
+Customer removed from queue at minute: 810
+Current queue length: 0
+Customer removed from queue at minute: 814
+Current queue length: 0
+Customer removed from queue at minute: 822
+Current queue length: 0
+Customer removed from queue at minute: 827
+Current queue length: 0
+Customer removed from queue at minute: 833
+Current queue length: 0
+Customer removed from queue at minute: 841
+Current queue length: 0
+Customer removed from queue at minute: 844
+Current queue length: 0
+Customer removed from queue at minute: 850
+Current queue length: 0
+Customer removed from queue at minute: 855
+Current queue length: 0
+Customer removed from queue at minute: 859
+Current queue length: 0
+Customer removed from queue at minute: 866
+Current queue length: 0
+Customer removed from queue at minute: 870
+Current queue length: 0
+Customer removed from queue at minute: 874
+Current queue length: 0
+Customer removed from queue at minute: 880
+Current queue length: 0
+Customer removed from queue at minute: 886
+Current queue length: 0
+Customer removed from queue at minute: 893
+Current queue length: 0
+Customer removed from queue at minute: 899
+Current queue length: 0
+Customer removed from queue at minute: 904
+Current queue length: 0
+Customer removed from queue at minute: 910
+Current queue length: 0
+Customer removed from queue at minute: 918
+Current queue length: 0
+Customer removed from queue at minute: 922
+Current queue length: 0
+Customer removed from queue at minute: 927
+Current queue length: 0
+Customer removed from queue at minute: 931
+Current queue length: 0
+Customer removed from queue at minute: 938
+Current queue length: 0
+Customer removed from queue at minute: 945
+Current queue length: 0
+Customer removed from queue at minute: 949
+Current queue length: 0
+Customer removed from queue at minute: 954
+Current queue length: 0
+Customer removed from queue at minute: 961
+Current queue length: 0
+Customer removed from queue at minute: 967
+Current queue length: 0
+Customer removed from queue at minute: 972
+Current queue length: 0
+Customer removed from queue at minute: 974
+Current queue length: 0
+Customer removed from queue at minute: 982
+Current queue length: 0
+Customer removed from queue at minute: 989
+Current queue length: 0
+Customer removed from queue at minute: 994
+Current queue length: 0
+Customer removed from queue at minute: 996
+Current queue length: 0
+Customer removed from queue at minute: 1001
+Current queue length: 0
+Customer removed from queue at minute: 1005
+Current queue length: 0
+Customer removed from queue at minute: 1009
+Current queue length: 0
+Customer removed from queue at minute: 1016
+Current queue length: 0
+Customer removed from queue at minute: 1022
+Current queue length: 0
+Customer removed from queue at minute: 1028
+Current queue length: 0
+Customer removed from queue at minute: 1033
+Current queue length: 0
+Customer removed from queue at minute: 1036
+Current queue length: 0
+Customer removed from queue at minute: 1040
+Current queue length: 0
+Customer removed from queue at minute: 1042
+Current queue length: 0
+Customer removed from queue at minute: 1048
+Current queue length: 0
+Customer removed from queue at minute: 1052
+Current queue length: 0
+Customer removed from queue at minute: 1056
+Current queue length: 0
+Customer removed from queue at minute: 1057
+Current queue length: 0
+Customer removed from queue at minute: 1062
+Current queue length: 0
+Customer removed from queue at minute: 1063
+Current queue length: 0
+Customer removed from queue at minute: 1065
+Current queue length: 0
+Customer removed from queue at minute: 1067
+Current queue length: 0
+Customer removed from queue at minute: 1069
+Current queue length: 0
+Customer removed from queue at minute: 1071
+Current queue length: 0
+Customer removed from queue at minute: 1072
+Current queue length: 0
+Customer removed from queue at minute: 1075
+Current queue length: 0
+Customer removed from queue at minute: 1077
+Current queue length: 0
+Customer removed from queue at minute: 1081
+Current queue length: 0
+Customer removed from queue at minute: 1083
+Current queue length: 0
+Customer removed from queue at minute: 1087
+Current queue length: 0
+Customer removed from queue at minute: 1088
+Current queue length: 0
+Customer removed from queue at minute: 1092
+Current queue length: 0
+Customer removed from queue at minute: 1097
+Current queue length: 0
+Customer removed from queue at minute: 1101
+Current queue length: 0
+Customer removed from queue at minute: 1106
+Current queue length: 0
+Customer removed from queue at minute: 1109
+Current queue length: 0
+Customer removed from queue at minute: 1111
+Current queue length: 0
+Customer removed from queue at minute: 1113
+Current queue length: 1
+Customer removed from queue at minute: 1117
+Current queue length: 2
+Customer removed from queue at minute: 1118
+Current queue length: 1
+Customer removed from queue at minute: 1120
+Current queue length: 0
+Customer removed from queue at minute: 1122
+Current queue length: 0
+Customer removed from queue at minute: 1125
+Current queue length: 0
+Customer removed from queue at minute: 1127
+Current queue length: 0
+Customer removed from queue at minute: 1130
+Current queue length: 1
+Customer removed from queue at minute: 1134
+Current queue length: 0
+Customer removed from queue at minute: 1136
+Current queue length: 0
+Customer removed from queue at minute: 1140
+Current queue length: 0
+Customer removed from queue at minute: 1141
+Current queue length: 0
+Customer removed from queue at minute: 1142
+Current queue length: 0
+Customer removed from queue at minute: 1148
+Current queue length: 2
+Customer removed from queue at minute: 1149
+Current queue length: 2
+Customer removed from queue at minute: 1153
+Current queue length: 2
+Customer removed from queue at minute: 1156
+Current queue length: 2
+Customer removed from queue at minute: 1156
+Current queue length: 1
+Customer removed from queue at minute: 1160
+Current queue length: 1
+Customer removed from queue at minute: 1161
+Current queue length: 0
+Customer removed from queue at minute: 1166
+Current queue length: 0
+Customer removed from queue at minute: 1168
+Current queue length: 0
+Customer removed from queue at minute: 1171
+Current queue length: 0
+Customer removed from queue at minute: 1174
+Current queue length: 0
+Customer removed from queue at minute: 1178
+Current queue length: 0
+Customer removed from queue at minute: 1180
+Current queue length: 0
+Customer removed from queue at minute: 1182
+Current queue length: 0
+Customer removed from queue at minute: 1185
+Current queue length: 0
+Customer removed from queue at minute: 1189
+Current queue length: 0
+Customer removed from queue at minute: 1192
+Current queue length: 0
+Customer removed from queue at minute: 1196
+Current queue length: 0
+Customer removed from queue at minute: 1199
+Current queue length: 0
+Customer removed from queue at minute: 1200
+Current queue length: 0
+Customer removed from queue at minute: 1203
+Current queue length: 0
+Customer removed from queue at minute: 1207
+Current queue length: 0
+Customer removed from queue at minute: 1211
+Current queue length: 1
+Customer removed from queue at minute: 1215
+Current queue length: 2
+Customer removed from queue at minute: 1220
+Current queue length: 5
+Customer removed from queue at minute: 1226
+Current queue length: 7
+Customer removed from queue at minute: 1231
+Current queue length: 7
+Customer removed from queue at minute: 1237
+Current queue length: 7
+Longest waiting time yet: 20 minutes
+Time of arrival: 1217
+Time of exit: 1237
+Customer removed from queue at minute: 1242
+Current queue length: 7
+Longest waiting time yet: 23 minutes
+Time of arrival: 1219
+Time of exit: 1242
+Customer removed from queue at minute: 1246
+Current queue length: 7
+Longest waiting time yet: 26 minutes
+Time of arrival: 1220
+Time of exit: 1246
+Customer removed from queue at minute: 1251
+Current queue length: 6
+Longest waiting time yet: 30 minutes
+Time of arrival: 1221
+Time of exit: 1251
+Customer removed from queue at minute: 1256
+Current queue length: 6
+Longest waiting time yet: 31 minutes
+Time of arrival: 1225
+Time of exit: 1256
+Customer removed from queue at minute: 1258
+Current queue length: 6
+Longest waiting time yet: 32 minutes
+Time of arrival: 1226
+Time of exit: 1258
+Customer removed from queue at minute: 1262
+Current queue length: 5
+Customer removed from queue at minute: 1265
+Current queue length: 5
+Customer removed from queue at minute: 1269
+Current queue length: 4
+Customer removed from queue at minute: 1273
+Current queue length: 4
+Customer removed from queue at minute: 1277
+Current queue length: 4
+Customer removed from queue at minute: 1281
+Current queue length: 4
+Customer removed from queue at minute: 1285
+Current queue length: 4
+Customer removed from queue at minute: 1291
+Current queue length: 4
+Customer removed from queue at minute: 1292
+Current queue length: 4
+Customer removed from queue at minute: 1296
+Current queue length: 3
+Customer removed from queue at minute: 1298
+Current queue length: 3
+Customer removed from queue at minute: 1304
+Current queue length: 3
+Customer removed from queue at minute: 1305
+Current queue length: 3
+Customer removed from queue at minute: 1308
+Current queue length: 2
+Customer removed from queue at minute: 1312
+Current queue length: 2
+Customer removed from queue at minute: 1316
+Current queue length: 1
+Customer removed from queue at minute: 1320
+Current queue length: 0
+---------------------------------------------------------------------------
+Normal - total hours ratio:  10/14  	 --> 	 71.43 %
+Peak - total hours ratio:     4/14  	 --> 	 28.57 %
+Normal - total hours arrival number ratio: 117/211  	 --> 	 55.45 %
+Peak - total hours arrival number ratio:   94/211  	 --> 	 44.55 %
+---------------------------------------------------------------------------
+Total interarrival time distributions:
+1 minute: 26/211  	 --> 	 12.32 %
+2 minute: 33/211  	 --> 	 15.64 %
+3 minute: 31/211  	 --> 	 14.69 %
+4 minute: 39/211  	 --> 	 18.48 %
+5 minute: 30/211  	 --> 	 14.22 %
+6 minute: 29/211  	 --> 	 13.74 %
+7 minute: 18/211  	 --> 	 8.53 %
+8 minute: 5/211  	 --> 	 2.37 %
+---------------------------------------------------------------------------
+Normal interarrival time distributions: 
+1 minute: 0/117  	 --> 	 0.00 %
+2 minute: 8/117  	 --> 	 6.84 %
+3 minute: 15/117  	 --> 	 12.82 %
+4 minute: 24/117  	 --> 	 20.51 %
+5 minute: 18/117  	 --> 	 15.38 %
+6 minute: 29/117  	 --> 	 24.79 %
+7 minute: 18/117  	 --> 	 15.38 %
+8 minute: 5/117  	 --> 	 4.27 %
+---------------------------------------------------------------------------
+Peak interarrival time distributions: 
+1 minute: 26/94  	 --> 	 27.66 %
+2 minute: 25/94  	 --> 	 26.60 %
+3 minute: 16/94  	 --> 	 17.02 %
+4 minute: 15/94  	 --> 	 15.96 %
+5 minute: 12/94  	 --> 	 12.77 %
+6 minute: 0/94  	 --> 	 0.00 %
+7 minute: 0/94  	 --> 	 0.00 %
+8 minute: 0/94  	 --> 	 0.00 %
+---------------------------------------------------------------------------
+Customers per hour distributions: 
+8:00 - 9:00 --> 13 customers
+9:00 - 10:00 --> 12 customers
+10:00 - 11:00 --> 14 customers
+11:00 - 12:00 --> 10 customers
+12:00 - 13:00 --> 24 customers
+13:00 - 14:00 --> 12 customers
+14:00 - 15:00 --> 12 customers
+15:00 - 16:00 --> 10 customers
+16:00 - 17:00 --> 12 customers
+17:00 - 18:00 --> 19 customers
+18:00 - 19:00 --> 20 customers
+19:00 - 20:00 --> 22 customers
+20:00 - 21:00 --> 20 customers
+21:00 - 22:00 --> 11 customers
+---------------------------------------------------------------------------
+Total number of arrivals: 
+211
+Number of arrivals during normal hours: 
+117
+Number of arrivals during peak hours: 
+94
+---------------------------------------------------------------------------
+Service time distributions:
+1 minute: 9/211  	 --> 	 4.27 %
+2 minute: 23/211  	 --> 	 10.90 %
+3 minute: 33/211  	 --> 	 15.64 %
+4 minute: 65/211  	 --> 	 30.81 %
+5 minute: 36/211  	 --> 	 17.06 %
+6 minute: 25/211  	 --> 	 11.85 %
+7 minute: 14/211  	 --> 	 6.64 %
+8 minute: 6/211  	 --> 	 2.84 %
+---------------------------------------------------------------------------
+Total number of customers that entered the queue: 211
+
+Longest queue length: 8
+Time of longest queue length: 1226
+Average queue length: 1.58
+
+Total waiting time: 1114
+Average waiting time: 5.28
+Longest waiting time: 32
+Longest waiting customer arrival time: 1226
+Longest waiting customer exit time: 1258
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+Name: John
+Service time (addition) bonus: 7
+Total work time: 300
+Total service time: 286
+Average service time: 4.93
+Total idle time: 16 minutes
+Total busy time: 285 minutes
+Idle time ratio: 5.33 %
+Busy time ratio: 95.00 %
+-
+Name: Baker
+Service time (addition) bonus: 0
+Total work time: 480
+Total service time: 298
+Average service time: 4.14
+Total idle time: 188 minutes
+Total busy time: 293 minutes
+Idle time ratio: 39.17 %
+Busy time ratio: 61.04 %
+-
+Name: Able
+Service time (addition) bonus: -10
+Total work time: 360
+Total service time: 306
+Average service time: 3.78
+Total idle time: 56 minutes
+Total busy time: 305 minutes
+Idle time ratio: 15.56 %
+Busy time ratio: 84.72 %
+-
+Combined working time: 1140
+Combined service time: 890
+-
+John's part of total work time: 26.32 %
+Baker's part of total work time: 42.11 %
+Able's part of total work time: 31.58 %
+-
+Combined busy time: 883
+Busy to work time ratio: 77.46 %
+-
+John's part of combined busy time: 32.28 %
+Baker's part of combined busy time: 33.18 %
+Able's part of combined busy time: 34.54 %
+-
+Combined idle time: 260
+Idle to work time ratio: 22.81 %
+-
+John's part of combined idle time: 6.15 %
+Baker's part of combined idle time: 72.31 %
+Able's part of combined idle time: 21.54 %
+---------------------------------------------------------------------------
+Exited
