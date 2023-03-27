@@ -84,29 +84,29 @@ class Workers {
   void printStatistics() {
     print('---------------------------------------------------------------------------');
     John.printStatistics();
-    print('');
+    print('-');
     Baker.printStatistics();
-    print('');
+    print('-');
     Able.printStatistics();
-    print('');
+    print('-');
 
     print('Combined working time: ${combinedWorkingTime}');
     print('Combined service time: ${combinedServiceTime}');
-    print('');
+    print('-');
     print("John's part of total work time: ${JohnWorkTimePercentage}");
     print("Baker's part of total work time: ${BakerWorkTimePercentage}");
     print("Able's part of total work time: ${AbleWorkTimePercentage}");
-    print('');
+    print('-');
     print('Combined busy time: ${combinedBusyTime}');
     print('Busy to work time ratio: ${busyToWorkPercentage}');
-    print('');
+    print('-');
     print("John's part of combined busy time: ${JohnBusyToCombinedWorkPercentage}");
     print("Baker's part of combined busy time: ${BakerBusyToCombinedWorkPercentage}");
     print("Able's part of combined busy time: ${AbleBusyToCombinedWorkPercentage}");
-    print('');
+    print('-');
     print('Combined idle time: ${combinedIdleTime}');
     print('Idle to work time ratio: ${idleToWorkPercentage}');
-    print('');
+    print('-');
     print("John's part of combined idle time: ${JohnIdleToCombinedWorkPercentage}");
     print("Baker's part of combined idle time: ${BakerIdleToCombinedWorkPercentage}");
     print("Able's part of combined idle time: ${AbleIdleToCombinedWorkPercentage}");
