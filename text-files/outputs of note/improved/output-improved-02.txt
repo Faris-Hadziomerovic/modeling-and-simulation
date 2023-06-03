@@ -539,7 +539,6 @@ Total number of customers that entered the queue: 211
 Longest queue length: 8
 Time of longest queue length: 1226
 Average queue length: 1.58
-
 Total waiting time: 1114
 Average waiting time: 5.28
 Longest waiting time: 32

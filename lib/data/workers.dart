@@ -27,11 +27,19 @@ class Workers {
   String get AbleBusyToCombinedWorkPercentage => Helpers.toPercentage(combinedBusyTime, Able.busyTime);
   String get AbleIdleToCombinedWorkPercentage => Helpers.toPercentage(combinedIdleTime, Able.idleTime);
 
-  Workers() {
+  Workers({bool useModifiedVersion = false}) {
+    int johnEndTime = WorkerShifts.johnEndTime;
+    int ableStartTime = WorkerShifts.ableStartTime;
+
+    if (useModifiedVersion) {
+      johnEndTime -= 60;
+      ableStartTime += 120;
+    }
+
     John = Worker(
       name: 'John',
       startTime: WorkerShifts.johnStartTime,
-      endTime: WorkerShifts.johnEndTime,
+      endTime: johnEndTime,
       speedBonus: 7, // this will slow him down
     );
 
@@ -44,7 +52,7 @@ class Workers {
 
     Able = Worker(
       name: 'Able',
-      startTime: WorkerShifts.ableStartTime,
+      startTime: ableStartTime,
       endTime: WorkerShifts.ableEndTime,
       speedBonus: -10, // this will speed him up
     );
