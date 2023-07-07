@@ -8,4 +8,16 @@ class Helpers {
     if (part == null) return 0.0;
     return (part / total) * 100;
   }
+
+  static String durationToString(Duration duration) {
+    return duration.toString().split('.')[0];
+  }
+
+  static int convertMinutesToSeconds(double minutes) {
+    return (minutes * 60).floor();
+  }
+
+  static int convertSecondsToMinutes(double seconds) {
+    return (seconds / 60).floor();
+  }
 }

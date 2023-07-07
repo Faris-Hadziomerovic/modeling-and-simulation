@@ -5,11 +5,18 @@ import './model/customer.dart';
 import './model/queue.dart';
 import './model/worker.dart';
 import './data/service_time.dart';
+import 'data/queues.dart';
+import 'model/customer_v2.dart';
 
 void main() {
   final workers = Workers();
+  final queues = Queues();
 
   final queue = CustomerQueue();
+
+  final johnQueue = queues.john;
+  final bakerQueue = queues.baker;
+  final ableQueue = queues.able;
 
   final arrivalData = ArrivalData(seed: 100);
 
@@ -22,8 +29,16 @@ void main() {
 
   eventLoop(
     workers: workers,
-    queue: queue,
     arrivalsMap: arrivalsMap,
+    queue: queue,
+  );
+
+  eventLoopV2(
+    workers: workers,
+    arrivalsMap: arrivalsMap,
+    johnQueue: johnQueue,
+    bakerQueue: bakerQueue,
+    ableQueue: ableQueue,
   );
 
   arrivalData.printArrivalData();
@@ -108,3 +123,89 @@ void doWork({
     worker.incrementBusyTime();
   }
 }
+
+/// The main event loop of the simulation that runs a loop for every second of the day and triggers necessary updates.
+void eventLoopV2({
+  required Workers workers,
+  required CustomerQueue johnQueue,
+  required CustomerQueue bakerQueue,
+  required CustomerQueue ableQueue,
+  required Map<int, Customer> arrivalsMap,
+  bool generateHelpEvent = false,
+  bool generateCrashEvent = false,
+}) {
+  final John = workers.John;
+  final Baker = workers.Baker;
+  final Able = workers.Able;
+
+  Customer? customer;
+
+  const oneSecond = Duration(seconds: 1);
+  final startTime = Duration(minutes: TimedEvents.openHours.startTime);
+  final endTime = Duration(minutes: TimedEvents.openHours.endTime);
+
+  //    8:00 - 22:00
+  for (var time = startTime; time <= endTime; time += oneSecond) {
+    workers.synchronizeTime(currentMinute: time.inMinutes);
+
+    customer = arrivalsMap[time];
+
+    if (customer != null) {
+      johnQueue.add(customer, currentMinute: time.inMinutes);
+    }
+
+    johnQueue.recordQueueLength();
+
+    if (Able.isWorking(time.inMinutes)) {
+      doWork(
+        worker: Able,
+        currentMinute: time.inMinutes,
+        queue: johnQueue,
+      );
+    }
+
+    if (Baker.isWorking(time.inMinutes)) {
+      doWork(
+        worker: Baker,
+        currentMinute: time.inMinutes,
+        queue: johnQueue,
+      );
+    }
+
+    if (John.isWorking(time.inMinutes)) {
+      doWork(
+        worker: John,
+        currentMinute: time.inMinutes,
+        queue: johnQueue,
+      );
+    }
+  }
+}
+
+/// Removes a customer from the queue and assignes them to the worker if possible.
+/// Updates worker's stats accordingly.
+void doWorkV2({
+  required Worker worker,
+  required int currentMinute,
+  required CustomerQueue queue,
+}) {
+  if (worker.isNotBusy) {
+    if (queue.isNotEmpty) {
+      worker.assignCustomer(
+        currentMinute: currentMinute,
+        printUpdate: true,
+      );
+      queue.remove(
+        currentMinute: currentMinute,
+        printUpdates: true,
+      );
+    } else {
+      worker.incrementIdleTime();
+    }
+  } else {
+    worker.incrementBusyTime();
+  }
+}
+
+/// Script for customer to decide what to do.
+void decide({required CustomerV2 customer}) {}
