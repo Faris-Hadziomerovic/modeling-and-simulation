@@ -2,6 +2,7 @@ import '../constants/worker_shifts.dart';
 import '../model/worker.dart';
 import '../other/helpers.dart';
 
+/// Everything is in minutes.
 class Workers {
   late final Worker John;
   late final Worker Baker;

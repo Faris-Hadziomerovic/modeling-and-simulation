@@ -1,14 +1,17 @@
 import 'dart:math';
 
+import '../constants/service_constants.dart';
 import '../data/service_time.dart';
 import '../other/helpers.dart';
+import 'customer_v2.dart';
 
-/// Everything is in minutes.
-class Worker {
+/// Everything is in seconds.
+class WorkerV2 {
   final String name;
   final int startTime;
   final int endTime;
-  final int speedBonus;
+  final double speedFactor;
+
   late final int totalWorkTime;
 
   bool _busy = false;
@@ -32,11 +35,11 @@ class Worker {
   double get idleToWorkRatio => double.parse((idleTime / totalWorkTime).toStringAsFixed(2));
   double get averageServiceTime => double.parse((totalServiceTime / totalCustomersServed).toStringAsFixed(2));
 
-  Worker({
+  WorkerV2({
     required this.name,
     required this.startTime,
     required this.endTime,
-    required this.speedBonus,
+    required this.speedFactor,
   }) : assert(endTime > startTime) {
     totalWorkTime = endTime - startTime;
   }
@@ -45,33 +48,44 @@ class Worker {
   void incrementBusyTime() => _busyTime++;
 
   /// Returns <code>true</code> if it's the workers shift.
-  bool isWorking(int currentMinute) {
-    return startTime <= currentMinute && currentMinute <= endTime;
+  bool isWorking(int currentSecond) {
+    return startTime <= currentSecond && currentSecond <= endTime;
   }
 
   /// Synchronizes the worker with the current minute and refreshes their <code>busy</code> status.
-  void refreshBusyStatus(int currentMinute) {
-    if (currentMinute >= _freeAt) {
+  void refreshBusyStatus(int currentSecond) {
+    if (currentSecond >= _freeAt) {
       _busy = false;
     }
   }
 
   /// Sets the workers <i>busy</i> status to <code>true</code>,
   /// increments busy time, updates service time and customers served count.
-  void assignCustomer({required int currentMinute, bool printUpdate = false}) {
-    final serviceTime = _generateServiceTime();
+  void assignCustomer({required int currentSecond, required CustomerV2 customer, bool printUpdate = false}) {
+    final serviceTime = _generateServiceTimeInSeconds(itemCount: customer.numberOfItems);
     _totalServiceTime += serviceTime;
-    _freeAt = currentMinute + serviceTime;
+    _freeAt = currentSecond + serviceTime;
     _busy = true;
     incrementBusyTime();
     _totalCustomersServed++;
 
-    if (printUpdate) ('$name was assigned a customer at $currentMinute with a service time of $serviceTime');
+    if (printUpdate)
+      ('$name was assigned a customer at ${Helpers.secondsToDurationString(currentSecond)} with a service time of $serviceTime seconds');
   }
 
-  /// Generates service time for the worker according to their <i>speedBonus</i>.
-  int _generateServiceTime() {
-    return ServiceTimeData.getServiceTime(Random().nextInt(100) + speedBonus);
+  /// Generates service time in seconds for the worker according to their [speedFactor].
+  /// If [itemCount] is not null then the service time will be calculated based on it,
+  /// the speed factor and the [ServiceTime.secondsPerItem] constant.
+  int _generateServiceTimeInSeconds({int? itemCount}) {
+    if (itemCount != null) {
+      final serviceTimeInSeconds = itemCount * ServiceTime.secondsPerItem * speedFactor;
+
+      return serviceTimeInSeconds.round();
+    }
+
+    final serviceTimeInMinutes = ServiceTimeData.getServiceTime(Random().nextInt(100)) * speedFactor;
+
+    return Helpers.convertMinutesToSeconds(serviceTimeInMinutes);
   }
 
   /// Prints all the worker's information and their current status.
@@ -84,13 +98,13 @@ class Worker {
     print('Total busy time: $_busyTime minutes');
     print('Total service time: $_totalServiceTime minutes');
     print('Average service time: $averageServiceTime minutes');
-    print('Service time (addition) bonus: $speedBonus');
+    print('Service time (addition) bonus: $speedFactor');
   }
 
   /// Prints all the worker's statistics.
   void printStatistics() {
     print('Name: $name');
-    print('Service time (addition) bonus: $speedBonus');
+    print('Service time (addition) bonus: $speedFactor');
     print('Total work time: $totalWorkTime');
     print('Total service time: $_totalServiceTime');
     print('Average service time: $averageServiceTime');
@@ -104,7 +118,7 @@ class Worker {
     return '''
       Name: $name,
       Status: ${_busy ? 'busy' : 'available'}, ${_busy ? '/nNext available time: $_freeAt,' : ''}
-      Service time (addition) bonus: $speedBonus,
+      Service time (addition) bonus: $speedFactor,
       Total work time: $totalWorkTime,
       Total service time: $_totalServiceTime,
       Average service time: $averageServiceTime,
