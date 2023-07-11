@@ -1,3 +1,14 @@
+// Main part in program!
+// TODO: Add observation of queue here
+// TODO: Add decide method here
+
+import 'dart:math';
+
+import '../constants/service_time.dart';
+import '../other/helpers.dart';
+import './worker_v2.dart';
+import './queue_v2.dart';
+
 /// Everything should be in seconds or Duration (preferred).
 ///
 /// **Now with items.**
@@ -57,23 +68,25 @@ class CustomerV2 {
   /// This should be a one-time calculated property that factors in the [initialReadyToWaitTime] and the [mood].
   late final Duration actualReadyToWaitTime;
 
-  /// The time in seconds when the customer arrives at the decision point.
-  final int arrivalTimeSecond;
-
-  /// The time in seconds when the customer finally exits the waiting queue and starts being served by a worker.
-  ///
-  /// This property should be set only once.
-  int? _queueExitTimeSecond;
-
-  int? get queueExitTimeSecond => _queueExitTimeSecond;
-
   /// The time when the customer arrives at the decision point.
-  Duration get arrivalTime => Duration(seconds: arrivalTimeSecond);
+  final Duration arrivalTime;
+
+  /// Should be set only once, when the customer arrives at the checkout.
+  Duration? _serviceTime;
+
+  /// The time how long the worker took to finish the customer's service.
+  Duration? get serviceTime => _serviceTime;
+
+  /// Should be set only once, when the customer arrives at the checkout.
+  Duration? _queueExitTime;
 
   /// The time when the customer finally exits the waiting queue and starts being served by a worker.
-  Duration? get queueExitTime => hasNotExitedQueue ? null : Duration(seconds: _queueExitTimeSecond!);
+  Duration? get queueExitTime => _queueExitTime;
 
-  bool get hasExitedQueue => _queueExitTimeSecond != null;
+  /// Ignore in logging!
+  bool get hasExitedQueue => _queueExitTime != null;
+
+  /// Ignore in logging!
   bool get hasNotExitedQueue => !hasExitedQueue;
 
   /// Should this be a one-time calculated field for later logging?
@@ -85,64 +98,172 @@ class CustomerV2 {
     return _readyToWaitTime;
   }
 
-  /// This is `false` until the customer has left the store. <br>
-  /// After the customer leaves nothing more should be operated on them except logging data.
-  bool isComplete = false;
-
   CustomerV2({
     required this.numberOfItemsInCart,
     required this.mood,
-    required this.arrivalTimeSecond,
+    required this.arrivalTime,
     required this.ordinalNumber,
-  });
+  }) {
+    initialReadyToWaitTime = Duration(seconds: numberOfItemsInCart * ServiceTime.secondsPerItem * 4);
 
-  /// Sets the customers queue exit time to <i>currentMinute</i>, this can be done only once.
-  /// Returns the customer's total waiting time in the queue
-  int exitQueue(int currentMinute) {
-    if (currentMinute < arrivalTimeSecond) throw Exception('Customer cannot leave before arrival.');
-
-    if (hasNotExitedQueue)
-      _queueExitTimeSecond = currentMinute;
-    else
-      throw Exception('The customer already exited the queue.');
-
-    return getWaitingTime();
+    // Can be also calculated at decision (with mood decreasing?)?
+    actualReadyToWaitTime = Duration(seconds: (initialReadyToWaitTime.inSeconds * mood).round());
   }
 
-  /// Completes the customers process. <br>
-  /// Logs the time when the customer's service was completed
-  /// Sets the customers queue exit time to <i>currentMinute</i>, this can be done only once.
-  /// Returns the customer's total waiting time in the queue
-  int complete(int currentSecond) {
-    if (currentSecond < arrivalTimeSecond) throw Exception('Customer cannot leave before arrival.');
+  /// This method finishes the customer's process making them available for logging.
+  ///
+  /// Sets the customers queue exit time to [currentTime] and the service time to [serviceTime], this can be done only once.
+  void exitQueue({
+    required Duration currentTime,
+    required Duration serviceTime,
+  }) {
+    if (currentTime < arrivalTime) throw Exception('Customer cannot leave before arrival.');
 
-    if (hasNotExitedQueue)
-      _queueExitTimeSecond = currentSecond;
-    else
-      throw Exception('The customer already exited the queue.');
+    if (hasExitedQueue) throw Exception('The customer already exited the queue.');
 
-    isComplete = true;
-
-    return getWaitingTime();
+    _queueExitTime = currentTime;
+    _serviceTime = serviceTime;
   }
 
-  void guard() => isComplete ? throw Exception('The customer process is completed. No further operations are allowed!') : null;
+  /// This method finishes the customer's process earlier by leaving the store without a service.
+  ///
+  /// It enables logging with a [_queueExitTime] and [_serviceTime] of [Duration.zero] (usually that's impossible).
+  void rageQuit({required Duration currentTime}) {
+    if (currentTime < arrivalTime) throw Exception('Customer cannot leave before arrival.');
 
-  int getWaitingTime({int? currentMinute}) {
+    if (hasExitedQueue) throw Exception('The customer already exited the queue.');
+
+    _queueExitTime = Duration.zero;
+    _serviceTime = Duration.zero;
+  }
+
+  /// Returns the current or total waiting time of the customer in the queue.
+  Duration getWaitingTime({Duration? currentTime}) {
     if (hasExitedQueue)
-      return _queueExitTimeSecond! - arrivalTimeSecond;
-    else if (currentMinute != null)
-      return currentMinute - arrivalTimeSecond;
+      return _queueExitTime! - arrivalTime;
+    else if (currentTime != null)
+      return currentTime - arrivalTime;
     else
       throw Exception('Customer is still waiting, but the current time is unknown.');
   }
 
+  /// This returns a string in a [csv] ready form. <br>
+  /// Should only be called after the customer finishes their process. <br>
+  ///
+  /// If the [hasRageQuitted] variable is `true` then the last two properties should be ignored as they are invalid.
+  String toCsv() {
+    if (serviceTime == null || queueExitTime == null) return 'Not completed';
+
+    final hasRageQuitted = serviceTime == Duration.zero && queueExitTime == Duration.zero;
+
+    return '$numberOfItemsInCart,'
+        '$mood,'
+        '$ordinalNumber,'
+        '${Helpers.durationToString(initialReadyToWaitTime)},'
+        '${Helpers.durationToString(actualReadyToWaitTime)},'
+        '${Helpers.durationToString(arrivalTime)},'
+        '${hasRageQuitted},'
+        '${Helpers.durationToString(queueExitTime! - arrivalTime)},'
+        '${Helpers.durationToString(serviceTime!)}\n';
+  }
+
   @override
   String toString() {
-    return '''{
-      Ordinal number: #$ordinalNumber, 
-      Arrival time: $arrivalTimeSecond, 
-      Queue exit time: ${hasExitedQueue ? _queueExitTimeSecond : 'unknown'}, 
-      Waiting time: ${hasExitedQueue ? getWaitingTime() : 'unknown'}  \n}''';
+    if (serviceTime == null || queueExitTime == null) return 'Not completed';
+
+    final hasRageQuitted = serviceTime == Duration.zero && queueExitTime == Duration.zero;
+
+    return 'Number of cart items: $numberOfItemsInCart \n'
+        'Mood: $mood \n'
+        'Ordinal number: $ordinalNumber \n'
+        'Initial ready to wait time: ${Helpers.durationToString(initialReadyToWaitTime)} \n'
+        'Initial ready to wait time: ${Helpers.durationToString(actualReadyToWaitTime)} \n'
+        'Arrival time: ${Helpers.durationToString(arrivalTime)} \n'
+        'Has rage quitted the queue: ${hasRageQuitted} \n'
+        'Waiting time: ${Helpers.durationToString(queueExitTime! - arrivalTime)} \n'
+        'Service time: ${Helpers.durationToString(serviceTime!)} \n';
   }
+
+  /// Script for customer to decide what to do.
+  Decision decide({
+    required CustomerQueueV2 queue,
+    WorkerV2? worker,
+  }) {
+    final estimatedItemCountInQueue = observeAndCalculateEstimateItemCountInQueue(queue: queue);
+
+    final estimatedTimeUntilService = estimateTime(
+      estimatedItemCount: estimatedItemCountInQueue,
+      worker: worker,
+    );
+
+    // TODO: make a decision based on the estimated time,
+
+    return Decision.leave;
+  }
+
+  /// Returns the total estimated item count in the observed queue.
+  int observeAndCalculateEstimateItemCountInQueue({required CustomerQueueV2 queue}) {
+    var totalNumberOfItemsCounted = 0;
+    var placementAwayFromObserver = 0;
+
+    for (var customer in queue.queueData.reversed) {
+      totalNumberOfItemsCounted += obscureItemCount(
+        actualItemCount: customer.numberOfItemsInCart,
+        customerPlacementAwayFromObserver: placementAwayFromObserver,
+      );
+
+      placementAwayFromObserver++;
+    }
+
+    return totalNumberOfItemsCounted;
+  }
+
+  /// Simulates human inaccuracy.
+  ///
+  /// Should give a rough estimate of the actual item count deoending on how close the observed customer is
+  /// and how many items they have in their cart.
+  ///
+  /// The higher the [actualItemCount] the less accurate the estimate should be. <br>
+  /// The further the [customerPlacementAwayFromObserver] is, the less acurate the estimate should be.
+  ///
+  /// TODO: obscure the number with the gaussian thing GPT mentioned!!!
+  int obscureItemCount({
+    // the higher the number the worse the estimation should be
+    required int actualItemCount,
+    // how many places the customer is away from the one that counts,
+    // the higher the number the worse the estimation should be
+    required int customerPlacementAwayFromObserver,
+  }) {
+    // do calculations here
+
+    // mood factor in all this?!?
+
+    return actualItemCount;
+  }
+
+  /// Simulates human inaccuracy.
+  ///
+  /// Should give a rough estimate of the time it will take to service the observed customer
+  /// and how many items they have in their cart.
+  Duration estimateTime({
+    required int estimatedItemCount,
+    WorkerV2? worker,
+  }) {
+    final workerSpeedFactor = worker?.speedFactor ?? 1.0;
+
+    // Should we add skill based estimation?
+    final deviation = Random().nextDouble() * 3;
+
+    final estimatedTimeInSeconds = (estimatedItemCount * deviation * ServiceTime.secondsPerItem * workerSpeedFactor).round();
+
+    return Duration(seconds: estimatedTimeInSeconds);
+  }
+}
+
+/// Possible decisions for the customer.
+enum Decision {
+  leave,
+  johnQueue,
+  bakerQueue,
+  ableQueue,
 }

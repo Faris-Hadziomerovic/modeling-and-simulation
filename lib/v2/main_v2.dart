@@ -1,29 +1,36 @@
+// NOT FINISHED
+// At the end methods are only outlined.
+
 import 'dart:math';
 
+import './constants/general_constants.dart';
+import './constants/timed_events.dart';
 import './data/interarrival_time_v2.dart';
 import './data/service_time.dart';
+import './data/queues_v2.dart';
 import './data/workers_v2.dart';
 import './model/customer_v2.dart';
 import './model/queue_v2.dart';
-import './queues_v2.dart';
-import './worker_v2.dart';
-import 'constants/general_constants.dart';
-import 'constants/timed_events.dart';
+import './model/worker_v2.dart';
 
 void main() {
-  // Create
+  // Create wrokers, they will now be working all day.
   final workers = WorkersV2();
+
+  // Create queues, mayber should be done in the workeres themselves.
   final queues = QueuesV2();
 
+  // Generate information on customer arrival times.
   final arrivalData = ArrivalDataV2(seed: 100);
 
+  // Re-map customers in a more usable way.
   final arrivalsMap = arrivalData.arrivalTimes.asMap().map(
         (key, value) => MapEntry(
           value.inSeconds,
           CustomerV2(
             // TODO: make this better somehow
             numberOfItemsInCart: Random().nextInt(50),
-            arrivalTimeSecond: value.inSeconds,
+            arrivalTime: value.inSeconds,
             // TODO: assign randomly
             mood: 1.0,
             ordinalNumber: key + 1,
@@ -31,12 +38,15 @@ void main() {
         ),
       );
 
+  // Main loop of the program, runs for the whole working day (8:00 - 22:00).
   eventLoopV2(
     workers: workers,
     arrivalsMap: arrivalsMap,
     queues: queues,
   );
 
+  // Prints statistics that were gathered.
+  /// TODO: Transform data into [.csv] file.
   arrivalData.printArrivalData();
   ServiceTimeData.printDistributionData();
   workers.printStatistics();
@@ -168,51 +178,3 @@ void eventLoopV2({
 
 // -------------------------------------------------------------------------------------------------------------------------------
 
-/// Possible decisions for the customer.
-enum Decision {
-  leave,
-  johnQueue,
-  bakerQueue,
-  ableQueue,
-}
-
-/// Script for customer to decide what to do.
-Decision decide({required CustomerV2 customer}) {
-  return Decision.leave;
-}
-
-double observeAndCalculateEstimateItemCountInQueue({
-  required CustomerQueueV2 queue,
-  CustomerV2? customer,
-  // mayber for speed?
-  WorkerV2? worker,
-}) {
-  // for each customer take item count and pass through obscure number function
-
-  return 0.0;
-}
-
-int obscureItemCount({
-  // the higher the number the worse the estimation should be
-  required int actualItemCount,
-  // how many places the customer is away from the one that counts,
-  // the higher the number the worse the estimation should be
-  required int customerPlacementFromEstimator,
-  // the one who is estimating the count
-  required CustomerV2 estimator,
-}) {
-  return actualItemCount;
-}
-
-Duration estimateTime({
-  // the higher the number the worse the estimation should be
-  required int estimatedItemCount,
-  // the one who is estimating the time
-  required CustomerV2 estimator,
-  CustomerV2? worker,
-}) {
-  // take estimated item count
-  //
-
-  return Duration.zero;
-}

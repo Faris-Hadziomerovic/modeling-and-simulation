@@ -1,53 +1,52 @@
+// NOT FINISHED
+// Need to document some things, remove other things.
+
 import 'dart:math';
 
-import 'constants/general_constants.dart';
-import 'constants/service_time.dart';
-import 'data/service_time.dart';
-import 'model/customer_v2.dart';
-import 'other/helpers.dart';
+import '../constants/general_constants.dart';
+import '../constants/service_time.dart';
+import '../data/service_time.dart';
+import 'customer_v2.dart';
+import '../other/helpers.dart';
+import 'queue_v2.dart';
 
 /// Everything is in seconds.
 class WorkerV2 {
+  /// For logging
   final String name;
-  final Duration startTime;
-  final Duration endTime;
+
+  /// The speed that is factored in the final service time.
+  ///
+  /// Lower is faster, higher is slower.
+  ///
+  /// Range from `0.0` to `2.0`, realistically it should range from around `0.60` to `1.40`. <br>
   final double speedFactor;
 
-  late final Duration totalWorkTime;
+  /// Worker will now control the queue and take customers out.
+  final CustomerQueueV2 queue;
 
   bool _busy = false;
-  Duration _idleTime = Duration.zero;
-  Duration _busyTime = Duration.zero;
   Duration _freeAt = Duration.zero;
   Duration _totalServiceTime = Duration.zero;
   int _totalCustomersServed = 0;
 
   bool get isBusy => _busy;
   bool get isNotBusy => !_busy;
-  Duration get idleTime => _idleTime;
-  Duration get busyTime => _busyTime;
   Duration get freeAt => _freeAt;
   Duration get totalServiceTime => _totalServiceTime;
   int get totalCustomersServed => _totalCustomersServed;
 
+  /// Statistic for logging. <br>
+  /// The total service time divided by the total number of customers served.
   double get averageServiceTime => double.parse((totalServiceTime.inSeconds / totalCustomersServed).toStringAsFixed(2));
 
   WorkerV2({
     required this.name,
-    required this.startTime,
-    required this.endTime,
     required this.speedFactor,
-  }) : assert(endTime > startTime) {
-    totalWorkTime = endTime - startTime;
-  }
+    required this.queue,
+  });
 
-  void incrementIdleTime() => _idleTime += Time.oneSecond;
-  void incrementBusyTime() => _busyTime += Time.oneSecond;
-
-  /// Returns `true` if it's the workers shift.
-  bool isWorking(Duration currentTime) {
-    return startTime <= currentTime && currentTime <= endTime;
-  }
+  void incrementTotalServiceTime() => _totalServiceTime += Time.oneSecond;
 
   /// Synchronizes the worker with the current minute and refreshes their <code>busy</code> status.
   void refreshBusyStatus(Duration currentTime) {
@@ -58,7 +57,11 @@ class WorkerV2 {
 
   /// Sets the workers <i>busy</i> status to <code>true</code>,
   /// increments busy time, updates service time and customers served count.
-  void assignCustomer({required Duration currentTime, required CustomerV2 customer, bool printUpdate = false}) {
+  void assignCustomer({
+    required Duration currentTime,
+    required CustomerV2 customer,
+    bool printUpdate = false,
+  }) {
     final serviceTime = _generateServiceTime(itemCount: customer.numberOfItemsInCart);
     _totalServiceTime += serviceTime;
     _freeAt = currentTime + serviceTime;
@@ -108,7 +111,6 @@ class WorkerV2 {
   void printStatistics() {
     print('Name: $name');
     print('Service time (addition) bonus: $speedFactor');
-    print('Total work time: $totalWorkTime');
     print('Total service time: $_totalServiceTime');
     print('Average service time: $averageServiceTime');
     print('Total idle time: $_idleTime minutes');
@@ -120,7 +122,6 @@ class WorkerV2 {
       Name: $name,
       Status: ${_busy ? 'busy' : 'available'}, ${_busy ? '/nNext available time: $_freeAt,' : ''}
       Service time (addition) bonus: $speedFactor,
-      Total work time: $totalWorkTime,
       Total service time: $_totalServiceTime,
       Average service time: $averageServiceTime,
       Total idle time: $_idleTime,

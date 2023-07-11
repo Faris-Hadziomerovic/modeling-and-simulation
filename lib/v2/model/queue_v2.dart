@@ -1,3 +1,7 @@
+// NOT FINISHED
+// TODO: Need to add logging of important things that Hana mentioned.
+// TODO: Need to refactor into new time model.
+
 import './customer_v2.dart';
 
 /// This is the main customer queue where they wait until served. <br>
@@ -77,8 +81,8 @@ class CustomerQueueV2 {
 
     if (waitingTime > _longestWaitingTime) {
       _longestWaitingTime = waitingTime;
-      _timeOfArrivalOfLongestWaitingCustomer = customer.arrivalTimeSecond;
-      _timeOfExitOfLongestWaitingCustomer = customer.queueExitTimeSecond!;
+      _timeOfArrivalOfLongestWaitingCustomer = customer.arrivalTime;
+      _timeOfExitOfLongestWaitingCustomer = customer.queueExitTime!;
 
       if (printUpdates) {
         print('Longest waiting time yet: $_longestWaitingTime minutes');

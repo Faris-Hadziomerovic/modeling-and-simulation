@@ -1,3 +1,5 @@
+// Unimportant - ignore
+
 class TimedEvent {
   final String name;
   final Duration startTime;

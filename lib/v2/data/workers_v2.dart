@@ -1,6 +1,7 @@
 import '../constants/timed_events.dart';
+import '../model/queue_v2.dart';
 import '../other/helpers.dart';
-import '../worker_v2.dart';
+import '../model/worker_v2.dart';
 
 /// TODO: Everything should in seconds or Duration (prefered).
 ///
@@ -36,6 +37,7 @@ class WorkersV2 {
       startTime: TimedEvents.openHours.startTime,
       endTime: TimedEvents.openHours.endTime,
       speedFactor: 1.25, // this will slow him down
+      queue: CustomerQueueV2(),
     );
 
     Baker = WorkerV2(
@@ -43,6 +45,7 @@ class WorkersV2 {
       startTime: TimedEvents.openHours.startTime,
       endTime: TimedEvents.openHours.endTime,
       speedFactor: 1.0,
+      queue: CustomerQueueV2(),
     );
 
     Able = WorkerV2(
@@ -50,6 +53,7 @@ class WorkersV2 {
       startTime: TimedEvents.openHours.startTime,
       endTime: TimedEvents.openHours.endTime,
       speedFactor: 0.70, // this will speed him up
+      queue: CustomerQueueV2(),
     );
   }
 
