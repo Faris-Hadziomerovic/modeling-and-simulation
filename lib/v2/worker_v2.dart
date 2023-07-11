@@ -1,39 +1,36 @@
 import 'dart:math';
 
-import '../constants/service_constants.dart';
-import '../data/service_time.dart';
-import '../other/helpers.dart';
-import 'customer_v2.dart';
+import 'constants/general_constants.dart';
+import 'constants/service_time.dart';
+import 'data/service_time.dart';
+import 'model/customer_v2.dart';
+import 'other/helpers.dart';
 
 /// Everything is in seconds.
 class WorkerV2 {
   final String name;
-  final int startTime;
-  final int endTime;
+  final Duration startTime;
+  final Duration endTime;
   final double speedFactor;
 
-  late final int totalWorkTime;
+  late final Duration totalWorkTime;
 
   bool _busy = false;
-  int _idleTime = 0;
-  int _busyTime = 0;
-  int _freeAt = 0;
-  int _totalServiceTime = 0;
+  Duration _idleTime = Duration.zero;
+  Duration _busyTime = Duration.zero;
+  Duration _freeAt = Duration.zero;
+  Duration _totalServiceTime = Duration.zero;
   int _totalCustomersServed = 0;
 
   bool get isBusy => _busy;
   bool get isNotBusy => !_busy;
-  int get idleTime => _idleTime;
-  int get busyTime => _busyTime;
-  int get freeAt => _freeAt;
-  int get totalServiceTime => _totalServiceTime;
+  Duration get idleTime => _idleTime;
+  Duration get busyTime => _busyTime;
+  Duration get freeAt => _freeAt;
+  Duration get totalServiceTime => _totalServiceTime;
   int get totalCustomersServed => _totalCustomersServed;
 
-  String get busyToWorkPercent => Helpers.toPercentage(totalWorkTime, busyTime);
-  String get idleToWorkPercent => Helpers.toPercentage(totalWorkTime, idleTime);
-  double get busyToWorkRatio => double.parse((busyTime / totalWorkTime).toStringAsFixed(2));
-  double get idleToWorkRatio => double.parse((idleTime / totalWorkTime).toStringAsFixed(2));
-  double get averageServiceTime => double.parse((totalServiceTime / totalCustomersServed).toStringAsFixed(2));
+  double get averageServiceTime => double.parse((totalServiceTime.inSeconds / totalCustomersServed).toStringAsFixed(2));
 
   WorkerV2({
     required this.name,
@@ -44,48 +41,54 @@ class WorkerV2 {
     totalWorkTime = endTime - startTime;
   }
 
-  void incrementIdleTime() => _idleTime++;
-  void incrementBusyTime() => _busyTime++;
+  void incrementIdleTime() => _idleTime += Time.oneSecond;
+  void incrementBusyTime() => _busyTime += Time.oneSecond;
 
-  /// Returns <code>true</code> if it's the workers shift.
-  bool isWorking(int currentSecond) {
-    return startTime <= currentSecond && currentSecond <= endTime;
+  /// Returns `true` if it's the workers shift.
+  bool isWorking(Duration currentTime) {
+    return startTime <= currentTime && currentTime <= endTime;
   }
 
   /// Synchronizes the worker with the current minute and refreshes their <code>busy</code> status.
-  void refreshBusyStatus(int currentSecond) {
-    if (currentSecond >= _freeAt) {
+  void refreshBusyStatus(Duration currentTime) {
+    if (currentTime >= _freeAt) {
       _busy = false;
     }
   }
 
   /// Sets the workers <i>busy</i> status to <code>true</code>,
   /// increments busy time, updates service time and customers served count.
-  void assignCustomer({required int currentSecond, required CustomerV2 customer, bool printUpdate = false}) {
-    final serviceTime = _generateServiceTimeInSeconds(itemCount: customer.numberOfItems);
+  void assignCustomer({required Duration currentTime, required CustomerV2 customer, bool printUpdate = false}) {
+    final serviceTime = _generateServiceTime(itemCount: customer.numberOfItemsInCart);
     _totalServiceTime += serviceTime;
-    _freeAt = currentSecond + serviceTime;
+    _freeAt = currentTime + serviceTime;
     _busy = true;
     incrementBusyTime();
     _totalCustomersServed++;
 
-    if (printUpdate)
-      ('$name was assigned a customer at ${Helpers.secondsToDurationString(currentSecond)} with a service time of $serviceTime seconds');
+    if (printUpdate) {
+      print(
+        '$name was assigned a customer at ${Helpers.durationToString(currentTime)}'
+        ' with a service time of ${Helpers.durationToString(serviceTime)} seconds.',
+      );
+    }
   }
 
-  /// Generates service time in seconds for the worker according to their [speedFactor].
+  /// Generates service time for the worker according to their [speedFactor].
   /// If [itemCount] is not null then the service time will be calculated based on it,
   /// the speed factor and the [ServiceTime.secondsPerItem] constant.
-  int _generateServiceTimeInSeconds({int? itemCount}) {
+  ///
+  /// <b> TODO: improve this if needed and dont forget to change serviceTimeInMinutes to seconds when its also changed </b>
+  Duration _generateServiceTime({int? itemCount}) {
     if (itemCount != null) {
       final serviceTimeInSeconds = itemCount * ServiceTime.secondsPerItem * speedFactor;
 
-      return serviceTimeInSeconds.round();
+      return Duration(seconds: serviceTimeInSeconds.round());
     }
 
     final serviceTimeInMinutes = ServiceTimeData.getServiceTime(Random().nextInt(100)) * speedFactor;
 
-    return Helpers.convertMinutesToSeconds(serviceTimeInMinutes);
+    return Duration(seconds: Helpers.convertMinutesToSeconds(serviceTimeInMinutes));
   }
 
   /// Prints all the worker's information and their current status.
@@ -110,8 +113,6 @@ class WorkerV2 {
     print('Average service time: $averageServiceTime');
     print('Total idle time: $_idleTime minutes');
     print('Total busy time: $_busyTime minutes');
-    print('Idle time ratio: $idleToWorkPercent');
-    print('Busy time ratio: $busyToWorkPercent');
   }
 
   String toStringVerbose() {
@@ -123,9 +124,7 @@ class WorkerV2 {
       Total service time: $_totalServiceTime,
       Average service time: $averageServiceTime,
       Total idle time: $_idleTime,
-      Total busy time: $_busyTime,
-      Idle time ratio: $idleToWorkPercent,
-      Busy time ratio: $busyToWorkPercent''';
+      Total busy time: $_busyTime''';
   }
 
   @override

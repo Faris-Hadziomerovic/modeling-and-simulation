@@ -13,6 +13,10 @@ class Helpers {
     return duration.toString().split('.')[0];
   }
 
+  static String secondsToDurationString(int seconds) {
+    return durationToString(Duration(seconds: seconds));
+  }
+
   static int convertMinutesToSeconds(double minutes) {
     return (minutes * 60).floor();
   }
