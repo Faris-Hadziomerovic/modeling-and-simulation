@@ -110,27 +110,43 @@ class CustomerV2 {
   /// This method finishes the customer's process making them available for logging.
   ///
   /// Sets the customers queue exit time to [currentTime] and the service time to [serviceTime], this can be done only once.
-  void exitQueue({
+  Duration exitQueue({
     required Duration currentTime,
-    required Duration serviceTime,
+    // required Duration serviceTime,
   }) {
     if (currentTime < arrivalTime) throw Exception('Customer cannot leave before arrival.');
 
     if (hasExitedQueue) throw Exception('The customer already exited the queue.');
 
     _queueExitTime = currentTime;
+    // _serviceTime = serviceTime;
+
+    return getWaitingTime(currentTime: currentTime);
+  }
+
+  /// Sets the customers service time to [serviceTime], this can be done only after setting the [_queueExitTime]..
+  void beginService({
+    required Duration currentTime,
+    required Duration serviceTime,
+  }) {
+    if (currentTime < arrivalTime) throw Exception('Customer cannot be served before arrival.');
+
+    if (hasNotExitedQueue) throw Exception('The customer needs to exit the queue first before being served.');
+
     _serviceTime = serviceTime;
   }
 
   /// This method finishes the customer's process earlier by leaving the store without a service.
   ///
   /// It enables logging with a [_queueExitTime] and [_serviceTime] of [Duration.zero] (usually that's impossible).
+  ///
+  /// Returns total waiting time of the customer in the queue.
   void rageQuit({required Duration currentTime}) {
     if (currentTime < arrivalTime) throw Exception('Customer cannot leave before arrival.');
 
     if (hasExitedQueue) throw Exception('The customer already exited the queue.');
 
-    _queueExitTime = Duration.zero;
+    _queueExitTime = currentTime;
     _serviceTime = Duration.zero;
   }
 

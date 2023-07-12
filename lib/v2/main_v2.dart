@@ -99,11 +99,11 @@ void eventLoopV2({
       );
 
       if (decision == Decision.johnQueue) {
-        johnQueue.add(customer, currentMinute: time.inMinutes);
+        johnQueue.add(customer, currentTime: time);
       } else if (decision == Decision.bakerQueue) {
-        bakerQueue.add(customer, currentMinute: time.inMinutes);
+        bakerQueue.add(customer, currentTime: time);
       } else if (decision == Decision.ableQueue) {
-        ableQueue.add(customer, currentMinute: time.inMinutes);
+        ableQueue.add(customer, currentTime: time);
       } else {
         // leave queue
         print('The customer has fucking left! Way to go John!');

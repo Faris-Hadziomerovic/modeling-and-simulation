@@ -136,10 +136,8 @@ class WorkerV2 {
   ///
   /// <b> TODO: modify to suit new assignment </b>
   void doWork({
-    required WorkerV2 worker,
     required Duration currentTime,
     required CustomerQueueV2 queue,
-    required CustomerV2 customer,
   }) {
     if (worker.isNotBusy) {
       if (queue.isNotEmpty) {
@@ -149,7 +147,7 @@ class WorkerV2 {
           printUpdate: true,
         );
         queue.remove(
-          currentMinute: currentTime.inMinutes,
+          currentTime: currentTime.inMinutes,
           printUpdates: true,
         );
       }
