@@ -1,7 +1,3 @@
-// Main part in program!
-// TODO: Add observation of queue here
-// TODO: Add decide method here
-
 import 'dart:math';
 
 import '../constants/service_time.dart';
@@ -185,20 +181,58 @@ class CustomerV2 {
   }
 
   /// Script for customer to decide what to do.
+  ///
+  /// <b> TODO: Finish logic to decide what to do. </b>
   Decision decide({
-    required CustomerQueueV2 queue,
-    WorkerV2? worker,
+    required CustomerQueueV2 johnQueue,
+    required CustomerQueueV2 bakerQueue,
+    required CustomerQueueV2 ableQueue,
+    required WorkerV2 john,
+    required WorkerV2 baker,
+    required WorkerV2 able,
   }) {
-    final estimatedItemCountInQueue = observeAndCalculateEstimateItemCountInQueue(queue: queue);
+    final estimatedItemCountInJohnQueue = observeAndCalculateEstimateItemCountInQueue(queue: johnQueue);
+    final estimatedItemCountInBakerQueue = observeAndCalculateEstimateItemCountInQueue(queue: bakerQueue);
+    final estimatedItemCountInAbleQueue = observeAndCalculateEstimateItemCountInQueue(queue: ableQueue);
 
-    final estimatedTimeUntilService = estimateTime(
-      estimatedItemCount: estimatedItemCountInQueue,
-      worker: worker,
+    final estimatedTimeUntilServiceInJohnQueue = estimateTime(
+      estimatedItemCount: estimatedItemCountInJohnQueue,
+      worker: john,
     );
 
-    // TODO: make a decision based on the estimated time,
+    final estimatedTimeUntilServiceInBakerQueue = estimateTime(
+      estimatedItemCount: estimatedItemCountInBakerQueue,
+      worker: baker,
+    );
 
-    return Decision.leave;
+    final estimatedTimeUntilServiceInAbleQueue = estimateTime(
+      estimatedItemCount: estimatedItemCountInAbleQueue,
+      worker: able,
+    );
+
+    Duration shortestEstimatedTime = Helpers.shortestDuration(
+      estimatedTimeUntilServiceInJohnQueue,
+      estimatedTimeUntilServiceInBakerQueue,
+      estimatedTimeUntilServiceInAbleQueue,
+    );
+
+    Decision decision;
+
+    // Decide which queue is the shortest.
+    if (shortestEstimatedTime == estimatedTimeUntilServiceInJohnQueue)
+      decision = Decision.johnQueue;
+    else if (shortestEstimatedTime == estimatedTimeUntilServiceInBakerQueue)
+      decision = Decision.bakerQueue;
+    else
+      decision = Decision.ableQueue;
+
+    // Decide if it's worth waiting.
+    // TODO: Complicate this just a bit more, but only after making the program work.
+    if (shortestEstimatedTime > actualReadyToWaitTime) {
+      decision = Decision.leave;
+    }
+
+    return decision;
   }
 
   /// Returns the total estimated item count in the observed queue.
@@ -252,6 +286,7 @@ class CustomerV2 {
     final workerSpeedFactor = worker?.speedFactor ?? 1.0;
 
     // Should we add skill based estimation?
+    // TODO: see if this is enough, upgrade if needed, but only after making the program work
     final deviation = Random().nextDouble() * 3;
 
     final estimatedTimeInSeconds = (estimatedItemCount * deviation * ServiceTime.secondsPerItem * workerSpeedFactor).round();

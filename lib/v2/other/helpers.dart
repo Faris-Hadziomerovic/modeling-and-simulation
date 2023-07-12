@@ -24,4 +24,13 @@ class Helpers {
   static int convertSecondsToMinutes(double seconds) {
     return (seconds / 60).floor();
   }
+
+  static Duration shortestDuration(Duration duration1, Duration duration2, Duration duration3) {
+    if (duration1 < duration2 && duration1 < duration3)
+      return duration1;
+    else if (duration2 < duration3)
+      return duration2;
+    else
+      return duration3;
+  }
 }
