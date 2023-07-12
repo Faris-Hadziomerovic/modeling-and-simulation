@@ -18,10 +18,14 @@ void main() {
   final workers = WorkersV2();
 
   // Create queues, mayber should be done in the workeres themselves.
-  final queues = QueuesV2();
+  final queues = CustomerQueuesV2();
 
   // Generate information on customer arrival times.
-  final arrivalData = ArrivalDataV2(seed: 100);
+  final arrivalData = ArrivalDataV2(seed: 100, printData: false);
+
+  arrivalData.printData(printLists: true);
+
+  return;
 
   // Re-map customers in a more usable way.
   final arrivalsMap = arrivalData.arrivalTimes.asMap().map(
@@ -30,7 +34,7 @@ void main() {
           CustomerV2(
             // TODO: make this better somehow
             numberOfItemsInCart: Random().nextInt(50),
-            arrivalTime: value.inSeconds,
+            arrivalTime: value,
             // TODO: assign randomly
             mood: 1.0,
             ordinalNumber: key + 1,
@@ -49,36 +53,6 @@ void main() {
   /// TODO: Transform data into [.csv] file.
   arrivalData.printArrivalData();
   ServiceTimeData.printDistributionData();
-  workers.printStatistics();
-}
-
-/// Removes a customer from the queue and assignes them to the worker if possible.
-/// Updates worker's stats accordingly.
-///
-/// <b> TODO: modify to suit new assignment </b>
-void doWork({
-  required WorkerV2 worker,
-  required Duration currentTime,
-  required CustomerQueueV2 queue,
-  required CustomerV2 customer,
-}) {
-  if (worker.isNotBusy) {
-    if (queue.isNotEmpty) {
-      worker.assignCustomer(
-        currentTime: currentTime,
-        customer: customer,
-        printUpdate: true,
-      );
-      queue.remove(
-        currentMinute: currentTime.inMinutes,
-        printUpdates: true,
-      );
-    } else {
-      worker.incrementIdleTime();
-    }
-  } else {
-    worker.incrementBusyTime();
-  }
 }
 
 // -------------------------------------------------------------------------------------------------------------------------------
@@ -90,7 +64,7 @@ void doWork({
 /// The main event loop of the simulation that runs a loop for every second of the day and triggers necessary updates.
 void eventLoopV2({
   required WorkersV2 workers,
-  required QueuesV2 queues,
+  required CustomerQueuesV2 queues,
   required Map<int, CustomerV2> arrivalsMap,
   bool generateHelpEvent = false,
   bool generateCrashEvent = false,
@@ -115,8 +89,13 @@ void eventLoopV2({
     customer = arrivalsMap[time];
 
     if (customer != null) {
-      final decision = decide(
-        customer: customer,
+      final decision = customer.decide(
+        able: able,
+        baker: baker,
+        john: john,
+        ableQueue: ableQueue,
+        bakerQueue: bakerQueue,
+        johnQueue: johnQueue,
       );
 
       if (decision == Decision.johnQueue) {
@@ -141,31 +120,21 @@ void eventLoopV2({
     /// should this all be in [WorkersV2.synchronizeTime]?
     ///
 
-    if (able.isWorking(time)) {
-      doWork(
-        worker: able,
-        currentTime: time,
-        queue: johnQueue,
-        customer: customer!,
-      );
-    }
+    /// TODO: put do work into worker class
+    /// This should be part of the synchronize time method?
+    able.doWork(
+      currentTime: time,
+      queue: ableQueue,
+    );
 
-    if (baker.isWorking(time)) {
-      doWork(
-        worker: baker,
-        currentTime: time,
-        queue: johnQueue,
-        customer: customer!,
-      );
-    }
+    baker.doWork(
+      currentTime: time,
+      queue: bakerQueue,
+    );
 
-    if (john.isWorking(time)) {
-      doWork(
-        worker: john,
-        currentTime: time,
-        queue: johnQueue,
-        customer: customer!,
-      );
-    }
+    john.doWork(
+      currentTime: time,
+      queue: johnQueue,
+    );
   }
 }

@@ -9,6 +9,18 @@ import '../other/helpers.dart';
 /// <b> TODO: Modify to generate full [CustomerV2] in the final map.
 /// Maybe generate them now via a distribution function? </b>
 class ArrivalDataV2 {
+  // The lists hold the data on when to spawn a customer at the decision point.
+  final _allArrivalTimes = <Duration>[];
+
+  // Do we keep these?
+  // These are sort of made for testing how the distributions work, they seem unnecessary in the grand scheme of things.
+  final _normalArrivalTimes = <Duration>[];
+  final _peakArrivalTimes = <Duration>[];
+
+  final allInterarrivalTimes = <Duration>[];
+  final normalInterarrivalTimes = <Duration>[];
+  final peakInterarrivalTimes = <Duration>[];
+
   // The following maps are there for testing how the distributions are executed.
   Map<int, int> customersPerHourCounter = {
     8: 0,
@@ -26,189 +38,85 @@ class ArrivalDataV2 {
     20: 0,
     21: 0,
   };
-  Map<int, int> allCounter = {
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    6: 0,
-    7: 0,
-    8: 0,
-  };
-  Map<int, int> normalCounter = {
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    6: 0,
-    7: 0,
-    8: 0,
-  };
-  Map<int, int> peakCounter = {
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    6: 0,
-    7: 0,
-    8: 0,
-  };
-
-  // The lists hold the data on when to spawn a customer at the decision point.
-
-  final _allArrivalTimes = <Duration>[];
-
-  /// The time at which customers arrive at the decision point (and at which they spawn).
-  List<Duration> get arrivalTimes => _allArrivalTimes;
-
-  /// The time in seconds at which customers arrive at the decision point (and at which they spawn).
-  List<int> get arrivalTimesInSeconds => _allArrivalTimes.map((e) => e.inSeconds).toList();
+  Map<int, int> allCounter = {};
+  Map<int, int> normalCounter = {};
+  Map<int, int> peakCounter = {};
 
   // -----------------------------------------------------------------------------------------------------------------------------
-  // TODO: Everything below this line is yet to be modified and finished.
+  // GETTERS ARE BELOW
   // -----------------------------------------------------------------------------------------------------------------------------
-
-  // Do we keep these?
-  final allInterarrivalTimes = <int>[];
-  final normalInterarrivalTimes = <int>[];
-  final peakInterarrivalTimes = <int>[];
-
-  final _normalArrivalTimes = <int>[];
-  final _peakArrivalTimes = <int>[];
 
   int get numberOfArrivals => _allArrivalTimes.length;
   int get numberOfNormalArrivals => _normalArrivalTimes.length;
   int get numberOfPeakArrivals => _peakArrivalTimes.length;
 
   /// The time at which customers arrive at the decision point (and at which they spawn).
+  List<Duration> get arrivalTimes => _allArrivalTimes;
+  List<Duration> get normalArrivalTimes => _normalArrivalTimes;
+  List<Duration> get peakArrivalTimes => _peakArrivalTimes;
 
-  /// Normalized by being shifted forward by 480
-  List<int> get normalArrivalTimes => _normalArrivalTimes.map((e) => e + 480).toList();
+  /// The time in seconds at which customers arrive at the decision point (and at which they spawn).
+  List<int> get arrivalTimesInSeconds => _allArrivalTimes.map((time) => time.inSeconds).toList();
 
-  /// Normalized by being shifted forward by 480
-  List<int> get peakArrivalTimes => _peakArrivalTimes.map((e) => e + 480).toList();
+  //
+  //
+  //
+  // ////////////////////////////////////////////////////////////////
+  //
+  //
+  //
 
+  /// Generates new arrival data that can be found in the [arrivalTimes] property.
+  ///
+  /// If the [seed] argument is `null` then the generated data will be randomly generated, but if it's provided then
+  /// the data will be generated based on the seed which will be the same every time the exact seed is used.
+  /// Use it to fine tune the system.
   ArrivalDataV2({bool printData = false, int? seed}) {
-    generateNewArrivalData(printData: printData, seed: seed);
-  }
-
-  /// Returns an <code>int</code> representing number of minutes between arrivals based on the <i>randomNumber</i> passed.
-  ///
-  ///
-  /// <b> TODO: fix this to give good interarrival times, we are dealing in seconds now. </b>
-  int getInterarrivalTime(int randomNumber) {
-    final Map<bool, int> interarrivalMap = {
-      randomNumber < 5: 2,
-      5 <= randomNumber && randomNumber < 20: 3,
-      20 <= randomNumber && randomNumber < 40: 4,
-      40 <= randomNumber && randomNumber < 60: 5,
-      60 <= randomNumber && randomNumber < 80: 6,
-      80 <= randomNumber && randomNumber < 95: 7,
-      95 <= randomNumber: 8,
-    };
-
-    final result = interarrivalMap[true] as int;
-
-    // adding another tally for the result
-    var count = allCounter[result] as int;
-    count++;
-    allCounter[result] = count;
-
-    count = normalCounter[result] as int;
-    count++;
-    normalCounter[result] = count;
-
-    return result;
-  }
-
-  /// Returns an <code>int</code> representing number of minutes between arrivals based on the <i>randomNumber</i> passed.
-  /// This method gives more probability for lower numbers to represent denser interarrival times.
-  ///
-  ///
-  /// <b> TODO: fix this to give good interarrival times, we are dealing in seconds now. </b>
-  int getPeakInterarrivalTime(int randomNumber) {
-    final Map<bool, int> peakInterarrivalMap = {
-      randomNumber < 30: 1,
-      30 <= randomNumber && randomNumber < 55: 2,
-      55 <= randomNumber && randomNumber < 75: 3,
-      75 <= randomNumber && randomNumber < 90: 4,
-      90 <= randomNumber: 5,
-    };
-
-    // final Map<bool, int> peakInterarrivalMap = {
-    //   randomNumber < 30: 1,
-    //   30 <= randomNumber && randomNumber < 55: 2,
-    //   55 <= randomNumber && randomNumber < 75: 3,
-    //   75 <= randomNumber && randomNumber < 85: 4,
-    //   85 <= randomNumber && randomNumber < 95: 5,
-    //   95 <= randomNumber: 6,
-    // };
-
-    final result = peakInterarrivalMap[true] as int;
-
-    // adding another tally for the result
-    var count = allCounter[result] as int;
-    count++;
-    allCounter[result] = count;
-
-    count = peakCounter[result] as int;
-    count++;
-    peakCounter[result] = count;
-
-    return result;
+    generateNewArrivalData(seed: seed, shouldPrintData: printData);
   }
 
   /// Generate and set new arrivals data.
-  /// Will print data to console if <i>printData</i> is <code>true</code>.
-  /// The data will be generated based on the <i>seed</i>.
   ///
-  ///
-  /// <b> TODO: fix this to give good interarrival times, we are dealing in seconds now. </b>
-  void generateNewArrivalData({bool printData = false, int? seed}) {
-    _reset();
+  /// The data will be generated based on the [seed].
+  void generateNewArrivalData({int? seed, bool shouldPrintData = false}) {
+    reset();
 
     final random = Random(seed);
 
-    int interarrivalTime = 0;
+    Duration interarrivalTime = Duration.zero;
     Duration arrivalTime = TimedEvents.openHours.startTime;
 
-    // Simulates arrivals of customers to the supermarket
-    // This data will be used in the second-to-second simulation later on
+    // Simulates arrivals of customers to the supermarket.
+    // This data will be used in the second-to-second simulation later on...
     var startTime = TimedEvents.openHours.startTime;
     var endTime = TimedEvents.openHours.endTime;
 
     for (var time = startTime; time < endTime - Time.tenMinutes; time += Time.oneSecond) {
-      do {
-        //      12:00 - 13:00  -->  peak I                 17:30 - 20:30  -->  peak II
-        if (TimedEvents.isPeakTime(currentTime: time)) {
-          // During peak times the arrivals are denser
-          interarrivalTime = getPeakInterarrivalTime(random.nextInt(100));
-          // TODO: this is a placeholder, change it to make more sense. Customers wont be arriving every second
-          arrivalTime += Duration(seconds: interarrivalTime);
-          peakInterarrivalTimes.add(interarrivalTime);
-          _peakArrivalTimes.add(arrivalTime);
-        } else {
-          // During normal times the arrivals are more spread out
-          interarrivalTime = getInterarrivalTime(random.nextInt(100));
-          arrivalTime += Duration(seconds: interarrivalTime);
-          normalInterarrivalTimes.add(interarrivalTime);
-          _normalArrivalTimes.add(arrivalTime);
-        }
+      //      12:00 - 13:00  -->  peak I                 17:30 - 20:30  -->  peak II
+      if (TimedEvents.isPeakTime(currentTime: time)) {
+        // During peak times the arrivals are denser
+        interarrivalTime = getPeakInterarrivalTime(rng: random);
+        arrivalTime += interarrivalTime;
+        peakInterarrivalTimes.add(interarrivalTime);
+        _peakArrivalTimes.add(arrivalTime);
+      } else {
+        // During normal times the arrivals are more spread out
+        interarrivalTime = getInterarrivalTime(rng: random);
+        arrivalTime += interarrivalTime;
+        normalInterarrivalTimes.add(interarrivalTime);
+        _normalArrivalTimes.add(arrivalTime);
+      }
 
-        allInterarrivalTimes.add(interarrivalTime);
-        _allArrivalTimes.add(arrivalTime);
-        _incrementCustomerPerHour(arrivalTime: arrivalTime);
-      } while (_allArrivalTimes.last < TimedEvents.openHours.endTime - 480 - 10);
+      allInterarrivalTimes.add(interarrivalTime);
+      _allArrivalTimes.add(arrivalTime);
+      _incrementCustomerPerHour(arrivalTime: arrivalTime);
     }
 
-    if (printData) printArrivalData();
+    if (shouldPrintData) printData();
   }
 
   /// Clears and resets all lists and maps.
-  void _reset() {
+  void reset() {
     allInterarrivalTimes.clear();
     normalInterarrivalTimes.clear();
     peakInterarrivalTimes.clear();
@@ -226,6 +134,142 @@ class ArrivalDataV2 {
       customersPerHourCounter[i] = 0;
     }
   }
+
+  /// Generates an interarrival period between customers.
+  ///
+  /// The [randomNumber] for now represents the minimim possible value in seconds, it defaults to `30`.
+  ///
+  /// The [rng] if not `null` will be used instead of a new random number generator. Use for fine-tuning the system.
+  Duration getInterarrivalTime({int? randomNumber, Random? rng}) {
+    var numberOfSeconds = (rng ?? Random()).nextInt(150) + (randomNumber ?? 30);
+    return Duration(seconds: numberOfSeconds);
+  }
+
+  /// Generates an interarrival period between customers.
+  ///
+  /// This gives a bit denser periods.
+  ///
+  /// The [randomNumber] for now represents the minimim possible value in seconds, it defaults to `30`.
+  ///
+  /// The [rng] if not `null` will be used instead of a new random number generator. Use for fine-tuning the system.
+  Duration getPeakInterarrivalTime({int? randomNumber, Random? rng}) {
+    var numberOfSeconds = (rng ?? Random()).nextInt(100) + (randomNumber ?? 30);
+    return Duration(seconds: numberOfSeconds);
+  }
+
+  /// Increments counter for customers per hour map.
+  void _incrementCustomerPerHour({required Duration arrivalTime}) {
+    final hour = arrivalTime.inHours;
+
+    var customerCount = customersPerHourCounter[hour] ?? 0;
+
+    customerCount++;
+
+    customersPerHourCounter[hour] = customerCount;
+  }
+
+  /// Formats and joins all arrival times to a [csv] ready format.
+  ///
+  /// If the [separator] isn't provided then a default comma (`,`) will be used.
+  String getCsvArrivalTimes([String? separator]) {
+    final _formattedArrivalTimes = _allArrivalTimes.map((e) => Helpers.durationToString(e)).toList();
+
+    return _formattedArrivalTimes.join(separator ?? ',');
+  }
+
+  /// Formats and joins all arrival times to a [csv] ready format.
+  ///
+  /// If the [separator] isn't provided then a default comma (`,`) will be used.
+  String getCsvArrivalTimesInSeconds([String? separator]) {
+    return arrivalTimesInSeconds.join(separator ?? ',');
+  }
+
+  /// This returns a string in a [csv] ready form. <br>
+  String toCsv() {
+    return 'All arrival times,${getCsvArrivalTimes()}\n'
+        'All arrival times in seconds,${getCsvArrivalTimesInSeconds()}\n'
+        'Total number of arrivals,$numberOfArrivals\n,'
+        'Number of normal arrivals,$numberOfNormalArrivals\n,'
+        'Number of peak time arrivals,$numberOfPeakArrivals\n,';
+  }
+
+  /// Prints important data to the console.
+  ///
+  /// Used for testing and fine-tuning the system.
+  void printData({bool printLists = false}) {
+    print('Customers per hour distributions: ');
+
+    for (var i = 8; i < 22; i++) {
+      print('$i:00 - ${i + 1}:00 --> ${customersPerHourCounter[i]} customers');
+    }
+
+    print('---------------------------------------------------------------------------');
+
+    print('Total number of arrivals: ');
+    print(_allArrivalTimes.length);
+
+    if (printLists) {
+      print('Chronologically ordered interarrival times: ');
+      print(allInterarrivalTimes);
+
+      print('Customer arrival times: ');
+      print(_allArrivalTimes);
+
+      print('---------------------------------------------------------------------------');
+    }
+
+    print('Number of arrivals during normal hours: ');
+    print(_normalArrivalTimes.length);
+
+    if (printLists) {
+      print('Chronologically ordered interarrival times during normal hours: ');
+      print(normalInterarrivalTimes);
+
+      print('Customer arrival times during normal hours: ');
+      print(_normalArrivalTimes);
+
+      print('---------------------------------------------------------------------------');
+    }
+
+    print('Number of arrivals during peak hours: ');
+    print(_peakArrivalTimes.length);
+
+    if (printLists) {
+      print('Chronologically ordered interarrival times during peak hours: ');
+      print(peakInterarrivalTimes);
+
+      print('Customer arrival times during peak hours: ');
+      print(_peakArrivalTimes);
+    }
+
+    print('---------------------------------------------------------------------------');
+  }
+
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  // -----------------------------------------------------------------------------------------------------------------------------
+
+  // DEPRECATED METHODS BELOW
+  // If the need arises to fine tune the interarrival time probabilities then go ahead and modify them.
+  // Also a printing method is located here, but it seems like a headache to fix it. Leaving it here just in case.
+
+  // -----------------------------------------------------------------------------------------------------------------------------
+  //
+  //
+  //
+  //
+  //
+  //
+
+  @deprecated
 
   /// Prints statistics in a human-readable way.
   ///
@@ -322,14 +366,63 @@ class ArrivalDataV2 {
     print('---------------------------------------------------------------------------');
   }
 
-  /// Increments counter for customers per hour map.
-  void _incrementCustomerPerHour({required Duration arrivalTime}) {
-    final hour = arrivalTime.inHours;
+  @deprecated
 
-    var customerCount = customersPerHourCounter[hour] ?? 0;
+  /// This is deprecated! Use [getInterarrivalTime] instead.
+  ///
+  /// Returns an [int] representing number of seconds between arrivals based on the [randomNumber] passed.
+  int getInterarrivalTimeInSeconds(int randomNumber) {
+    final Map<bool, int> interarrivalMap = {
+      randomNumber < 5: 20,
+      5 <= randomNumber && randomNumber < 20: 40,
+      20 <= randomNumber && randomNumber < 40: 60,
+      40 <= randomNumber && randomNumber < 60: 80,
+      60 <= randomNumber && randomNumber < 80: 100,
+      80 <= randomNumber && randomNumber < 95: 140,
+      95 <= randomNumber: 180,
+    };
 
-    customerCount++;
+    final result = interarrivalMap[true] as int;
 
-    customersPerHourCounter[hour] = customerCount;
+    // adding another tally for the result
+    var count = allCounter[result] as int;
+    count++;
+    allCounter[result] = count;
+
+    count = normalCounter[result] as int;
+    count++;
+    normalCounter[result] = count;
+
+    return result;
+  }
+
+  @deprecated
+
+  /// This is deprecated! Use [getPeakInterarrivalTime] instead.
+  ///
+  /// Returns an [int] representing number of seconds between arrivals based on the [randomNumber] passed.
+  ///
+  /// This method gives more probability for lower numbers to represent denser interarrival times.
+  int getPeakInterarrivalTimeInSeconds(int randomNumber) {
+    final Map<bool, int> peakInterarrivalMap = {
+      randomNumber < 30: 30,
+      30 <= randomNumber && randomNumber < 55: 60,
+      55 <= randomNumber && randomNumber < 75: 100,
+      75 <= randomNumber && randomNumber < 90: 120,
+      90 <= randomNumber: 150,
+    };
+
+    final result = peakInterarrivalMap[true] as int;
+
+    // adding another tally for the result
+    var count = allCounter[result] as int;
+    count++;
+    allCounter[result] = count;
+
+    count = peakCounter[result] as int;
+    count++;
+    peakCounter[result] = count;
+
+    return result;
   }
 }

@@ -130,4 +130,31 @@ class WorkerV2 {
 
   @override
   String toString() => name;
+
+  /// Removes a customer from the queue and assignes them to the worker if possible.
+  /// Updates worker's stats accordingly.
+  ///
+  /// <b> TODO: modify to suit new assignment </b>
+  void doWork({
+    required WorkerV2 worker,
+    required Duration currentTime,
+    required CustomerQueueV2 queue,
+    required CustomerV2 customer,
+  }) {
+    if (worker.isNotBusy) {
+      if (queue.isNotEmpty) {
+        worker.assignCustomer(
+          currentTime: currentTime,
+          customer: customer,
+          printUpdate: true,
+        );
+        queue.remove(
+          currentMinute: currentTime.inMinutes,
+          printUpdates: true,
+        );
+      }
+    } else {
+      worker.incrementTotalServiceTime();
+    }
+  }
 }

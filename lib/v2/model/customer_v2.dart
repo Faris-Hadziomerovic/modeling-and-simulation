@@ -86,7 +86,8 @@ class CustomerV2 {
   bool get hasNotExitedQueue => !hasExitedQueue;
 
   /// Should this be a one-time calculated field for later logging?
-  /// <br><b> TODO: Define how the ready-to-wait time is calculated. </b>
+  ///
+  /// <b> TODO: Define how the ready-to-wait time is calculated. </b>
   Duration get readyToWaitTime {
     // TODO: Define how the ready-to-wait time is calculated
     var _readyToWaitTime = initialReadyToWaitTime;
