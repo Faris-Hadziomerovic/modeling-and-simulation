@@ -18,6 +18,9 @@ class CustomerQueuesV2 {
     baker = CustomerQueueV2();
 
     able = CustomerQueueV2();
+
+    completed = CustomerQueueV2();
+    rageQuitted = CustomerQueueV2();
   }
 
   void printStatistics({required Duration currentTime}) {

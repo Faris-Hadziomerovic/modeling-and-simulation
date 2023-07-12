@@ -127,6 +127,10 @@ class WorkerV2 {
     print('Average service time: $averageServiceTime');
   }
 
+  String toCsv() {
+    return '';
+  }
+
   String toStringVerbose() {
     return '''
       Name: $name,
