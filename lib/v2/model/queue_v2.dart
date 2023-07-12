@@ -103,6 +103,22 @@ class CustomerQueueV2 {
     return customer;
   }
 
+  String allCustomersToCsv() {
+    String data = 'numberOfItemsInCart,'
+        'mood,'
+        'ordinalNumber,'
+        'initialReadyToWaitTime,'
+        'actualReadyToWaitTime,'
+        'arrivalTime,'
+        'hasRageQuitted,'
+        'decision,'
+        'waiting time,'
+        'serviceTime\n';
+
+    // TODO: is this okay?!?
+    return data + _queue.map((e) => e.toCsv()).join();
+  }
+
   void printStatistics() {
     print('---------------------------------------------------------------------------');
     print('Total number of customers that entered the queue: $totalNumberOfCustomers');

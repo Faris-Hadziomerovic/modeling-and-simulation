@@ -21,9 +21,11 @@ void main() {
   // Generate information on customer arrival times.
   final arrivalData = ArrivalDataV2(seed: 100, printData: false);
 
-  arrivalData.printData(printLists: true);
+  // print(arrivalData.toCsv());
 
-  return;
+  // return;
+
+  // arrivalData.printData(printLists: false);
 
   // Re-map customers in a more usable way.
   final arrivalsMap = arrivalData.arrivalTimes.asMap().map(
@@ -49,8 +51,11 @@ void main() {
 
   // Prints statistics that were gathered.
   /// TODO: Transform data into [.csv] file.
-  arrivalData.printArrivalData();
-  ServiceTimeData.printDistributionData();
+  // arrivalData.printArrivalData();
+  // ServiceTimeData.printDistributionData();
+
+  print(arrivalData.toCsv());
+  print(queues.completed.allCustomersToCsv());
 }
 
 // -------------------------------------------------------------------------------------------------------------------------------
@@ -84,7 +89,7 @@ void eventLoopV2({
   for (var time = startTime; time <= endTime; time += Time.oneSecond) {
     workers.synchronizeTime(currentTime: time);
 
-    customer = arrivalsMap[time];
+    customer = arrivalsMap[time.inSeconds];
 
     if (customer != null) {
       final decision = customer.decide(

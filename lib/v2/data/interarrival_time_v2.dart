@@ -91,25 +91,30 @@ class ArrivalDataV2 {
     var startTime = TimedEvents.openHours.startTime;
     var endTime = TimedEvents.openHours.endTime;
 
-    for (var time = startTime; time < endTime - Time.tenMinutes; time += Time.oneSecond) {
-      //      12:00 - 13:00  -->  peak I                 17:30 - 20:30  -->  peak II
+    for (var time = startTime; time < endTime - Time.tenMinutes;) {
+      // //      12:00 - 13:00  -->  peak I                 17:30 - 20:30  -->  peak II
       if (TimedEvents.isPeakTime(currentTime: time)) {
         // During peak times the arrivals are denser
         interarrivalTime = getPeakInterarrivalTime(rng: random);
+
         arrivalTime += interarrivalTime;
         peakInterarrivalTimes.add(interarrivalTime);
         _peakArrivalTimes.add(arrivalTime);
       } else {
         // During normal times the arrivals are more spread out
         interarrivalTime = getInterarrivalTime(rng: random);
+
         arrivalTime += interarrivalTime;
         normalInterarrivalTimes.add(interarrivalTime);
         _normalArrivalTimes.add(arrivalTime);
       }
 
       allInterarrivalTimes.add(interarrivalTime);
-      _allArrivalTimes.add(arrivalTime);
       _incrementCustomerPerHour(arrivalTime: arrivalTime);
+
+      _allArrivalTimes.add(arrivalTime);
+
+      time += interarrivalTime;
     }
 
     if (shouldPrintData) printData();
@@ -210,10 +215,10 @@ class ArrivalDataV2 {
 
     if (printLists) {
       print('Chronologically ordered interarrival times: ');
-      print(allInterarrivalTimes);
+      print(allInterarrivalTimes.map((e) => Helpers.durationToString(e)).toList());
 
       print('Customer arrival times: ');
-      print(_allArrivalTimes);
+      print(_allArrivalTimes.map((e) => Helpers.durationToString(e)).toList());
 
       print('---------------------------------------------------------------------------');
     }
@@ -223,10 +228,10 @@ class ArrivalDataV2 {
 
     if (printLists) {
       print('Chronologically ordered interarrival times during normal hours: ');
-      print(normalInterarrivalTimes);
+      print(normalInterarrivalTimes.map((e) => Helpers.durationToString(e)).toList());
 
       print('Customer arrival times during normal hours: ');
-      print(_normalArrivalTimes);
+      print(_normalArrivalTimes.map((e) => Helpers.durationToString(e)).toList());
 
       print('---------------------------------------------------------------------------');
     }
@@ -236,10 +241,10 @@ class ArrivalDataV2 {
 
     if (printLists) {
       print('Chronologically ordered interarrival times during peak hours: ');
-      print(peakInterarrivalTimes);
+      print(peakInterarrivalTimes.map((e) => Helpers.durationToString(e)).toList());
 
       print('Customer arrival times during peak hours: ');
-      print(_peakArrivalTimes);
+      print(_peakArrivalTimes.map((e) => Helpers.durationToString(e)).toList());
     }
 
     print('---------------------------------------------------------------------------');

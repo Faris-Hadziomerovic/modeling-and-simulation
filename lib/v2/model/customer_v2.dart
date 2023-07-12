@@ -13,6 +13,9 @@ import './queue_v2.dart';
 ///
 /// TODO: Follow the TODOs and finish what they state.
 class CustomerV2 {
+  /// The customers decision
+  Decision? decision;
+
   /// The number of items the customer wants to buy.
   ///
   /// It plays a factor in how much the customer is ready to wait to get served.
@@ -84,6 +87,8 @@ class CustomerV2 {
 
   /// Ignore in logging!
   bool get hasNotExitedQueue => !hasExitedQueue;
+
+  @deprecated
 
   /// Should this be a one-time calculated field for later logging?
   ///
@@ -176,6 +181,7 @@ class CustomerV2 {
         '${Helpers.durationToString(actualReadyToWaitTime)},'
         '${Helpers.durationToString(arrivalTime)},'
         '${hasRageQuitted},'
+        '${decision?.name ?? Decision.leave.name},'
         '${Helpers.durationToString(queueExitTime! - arrivalTime)},'
         '${Helpers.durationToString(serviceTime!)}\n';
   }
@@ -248,6 +254,8 @@ class CustomerV2 {
     if (shortestEstimatedTime > actualReadyToWaitTime) {
       decision = Decision.leave;
     }
+
+    this.decision = decision;
 
     return decision;
   }
