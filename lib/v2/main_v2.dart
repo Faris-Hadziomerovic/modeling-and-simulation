@@ -10,15 +10,13 @@ import './data/service_time.dart';
 import './data/queues_v2.dart';
 import './data/workers_v2.dart';
 import './model/customer_v2.dart';
-import './model/queue_v2.dart';
-import './model/worker_v2.dart';
 
 void main() {
-  // Create wrokers, they will now be working all day.
-  final workers = WorkersV2();
-
   // Create queues, mayber should be done in the workeres themselves.
   final queues = CustomerQueuesV2();
+
+  // Create wrokers, they will now be working all day.
+  final workers = WorkersV2(queues: queues);
 
   // Generate information on customer arrival times.
   final arrivalData = ArrivalDataV2(seed: 100, printData: false);

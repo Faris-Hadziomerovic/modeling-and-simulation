@@ -25,6 +25,9 @@ class WorkerV2 {
   /// Worker will now control the queue and take customers out.
   final CustomerQueueV2 queue;
 
+  /// The place where customers go when their journey is complete.
+  final CustomerQueueV2 completedQueue;
+
   bool _busy = false;
   Duration _freeAt = Duration.zero;
   Duration _totalServiceTime = Duration.zero;
@@ -44,19 +47,25 @@ class WorkerV2 {
     required this.name,
     required this.speedFactor,
     required this.queue,
+    required this.completedQueue,
   });
 
   void incrementTotalServiceTime() => _totalServiceTime += Time.oneSecond;
 
-  /// Synchronizes the worker with the current minute and refreshes their <code>busy</code> status.
+  /// Synchronizes the worker with the current minute and refreshes their [isBusy] status.
   void refreshBusyStatus(Duration currentTime) {
     if (currentTime >= _freeAt) {
       _busy = false;
     }
   }
 
-  /// Sets the workers <i>busy</i> status to <code>true</code>,
+  // TODO: finish this
+  void syncTime({required Duration currentTime}) {}
+
+  /// Sets the workers [isBusy] status to `true`,
   /// increments busy time, updates service time and customers served count.
+  ///
+  /// Completes the customers journey.
   void assignCustomer({
     required Duration currentTime,
     required CustomerV2 customer,
@@ -66,15 +75,20 @@ class WorkerV2 {
     _totalServiceTime += serviceTime;
     _freeAt = currentTime + serviceTime;
     _busy = true;
-    incrementBusyTime();
+    incrementTotalServiceTime();
     _totalCustomersServed++;
+
+    customer.beginService(currentTime: currentTime, serviceTime: serviceTime);
 
     if (printUpdate) {
       print(
         '$name was assigned a customer at ${Helpers.durationToString(currentTime)}'
-        ' with a service time of ${Helpers.durationToString(serviceTime)} seconds.',
+        ' with a service time of ${Helpers.durationToString(serviceTime)}.',
       );
     }
+
+    // The customers story ends here.
+    completedQueue.add(customer, currentTime: currentTime);
   }
 
   /// Generates service time for the worker according to their [speedFactor].
@@ -100,8 +114,6 @@ class WorkerV2 {
     print('Name: $name');
     print('Status: ${_busy ? 'busy' : 'available'}');
     if (_busy) print('Next available time: $_freeAt');
-    print('Total idle time: $_idleTime minutes');
-    print('Total busy time: $_busyTime minutes');
     print('Total service time: $_totalServiceTime minutes');
     print('Average service time: $averageServiceTime minutes');
     print('Service time (addition) bonus: $speedFactor');
@@ -113,8 +125,6 @@ class WorkerV2 {
     print('Service time (addition) bonus: $speedFactor');
     print('Total service time: $_totalServiceTime');
     print('Average service time: $averageServiceTime');
-    print('Total idle time: $_idleTime minutes');
-    print('Total busy time: $_busyTime minutes');
   }
 
   String toStringVerbose() {
@@ -123,9 +133,7 @@ class WorkerV2 {
       Status: ${_busy ? 'busy' : 'available'}, ${_busy ? '/nNext available time: $_freeAt,' : ''}
       Service time (addition) bonus: $speedFactor,
       Total service time: $_totalServiceTime,
-      Average service time: $averageServiceTime,
-      Total idle time: $_idleTime,
-      Total busy time: $_busyTime''';
+      Average service time: $averageServiceTime''';
   }
 
   @override
@@ -137,22 +145,25 @@ class WorkerV2 {
   /// <b> TODO: modify to suit new assignment </b>
   void doWork({
     required Duration currentTime,
-    required CustomerQueueV2 queue,
+    CustomerQueueV2? queue,
   }) {
-    if (worker.isNotBusy) {
+    queue ??= this.queue;
+
+    if (isNotBusy) {
       if (queue.isNotEmpty) {
-        worker.assignCustomer(
+        final customer = queue.remove(
+          currentTime: currentTime,
+          printUpdates: true,
+        );
+
+        assignCustomer(
           currentTime: currentTime,
           customer: customer,
           printUpdate: true,
         );
-        queue.remove(
-          currentTime: currentTime.inMinutes,
-          printUpdates: true,
-        );
       }
     } else {
-      worker.incrementTotalServiceTime();
+      incrementTotalServiceTime();
     }
   }
 }
