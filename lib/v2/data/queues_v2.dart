@@ -5,6 +5,9 @@ import '../other/helpers.dart';
 
 /// <b> TODO: Maybe every worker should be assigned a queue instead? </b>
 class CustomerQueuesV2 {
+  late final CustomerQueueV2 completed;
+  late final CustomerQueueV2 rageQuitted;
+
   late final CustomerQueueV2 john;
   late final CustomerQueueV2 baker;
   late final CustomerQueueV2 able;
@@ -25,5 +28,8 @@ class CustomerQueuesV2 {
     john.printStatistics();
     baker.printStatistics();
     able.printStatistics();
+
+    completed.printStatistics();
+    rageQuitted.printStatistics();
   }
 }

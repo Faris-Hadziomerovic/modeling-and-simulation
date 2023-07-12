@@ -38,7 +38,7 @@ class WorkerV2 {
 
   /// Statistic for logging. <br>
   /// The total service time divided by the total number of customers served.
-  double get averageServiceTime => double.parse((totalServiceTime.inSeconds / totalCustomersServed).toStringAsFixed(2));
+  Duration get averageServiceTime => Duration(seconds: (totalServiceTime.inSeconds / totalCustomersServed).round());
 
   WorkerV2({
     required this.name,
