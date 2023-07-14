@@ -4,6 +4,9 @@
 
 import './customer_v2.dart';
 import '../other/helpers.dart';
+import 'dart:io';
+import 'package:path/path.dart';
+import 'package:excel/excel.dart';
 
 /// This is the main customer queue where they wait until served. <br>
 /// Each worker should be assigned a queue. <br>
@@ -114,7 +117,22 @@ class CustomerQueueV2 {
         'decision,'
         'waiting time,'
         'serviceTime\n';
+    var excel = Excel.createExcel();
+    Sheet sheetObject = excel['NewSheet'];
+    sheetObject.appendRow([
+      'Mood',
+      'OrdinalNumber',
+      'initialReadyToWaitTime',
+      'actualReadyToWaitTime',
+      'arrivalTime',
+      'hasRageQuitted',
+      'decision',
+      'waiting time',
+      'serviceTime'
+    ]);
 
+    var list = _queue.map((e) => sheetObject.appendRow(e.toCsv() as List));
+    excel.save(fileName: 'DataSheetExcel.xlsx');
     // TODO: is this okay?!?
     return data + _queue.map((e) => e.toCsv()).join();
   }

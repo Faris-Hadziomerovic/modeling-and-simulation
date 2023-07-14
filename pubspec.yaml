@@ -1,0 +1,8 @@
+name: AiMl
+description: >-
+  An artificial intelligence and machine learning project
+version: 1.2.3
+environment:
+  sdk: "^3.0.0"
+dependencies:
+  excel: ^2.1.0
