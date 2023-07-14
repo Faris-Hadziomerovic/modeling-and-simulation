@@ -106,14 +106,15 @@ class CustomerQueueV2 {
   String allCustomersToCsv() {
     String data = 'numberOfItemsInCart,'
         'mood,'
-        'ordinalNumber,'
-        'initialReadyToWaitTime,'
+        //  'ordinalNumber,'
+        // 'initialReadyToWaitTime,'
         'actualReadyToWaitTime,'
         'arrivalTime,'
-        'hasRageQuitted,'
         'decision,'
+        'hasRageQuitted,'
         'waiting time,'
-        'serviceTime\n';
+        'service time,'
+        'totalTime\n';
 
     // TODO: is this okay?!?
     return data + _queue.map((e) => e.toCsv()).join();

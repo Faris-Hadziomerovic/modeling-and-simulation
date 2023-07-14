@@ -176,14 +176,18 @@ class CustomerV2 {
 
     return '$numberOfItemsInCart,'
         '$mood,'
-        '$ordinalNumber,'
-        '${Helpers.durationToString(initialReadyToWaitTime)},'
+        // '$ordinalNumber,'
+        /* '${Helpers.durationToString(initialReadyToWaitTime)},'
         '${Helpers.durationToString(actualReadyToWaitTime)},'
-        '${Helpers.durationToString(arrivalTime)},'
-        '${hasRageQuitted},'
+        '${Helpers.durationToString(arrivalTime)},'*/
+        //'${initialReadyToWaitTime},'
+        '${actualReadyToWaitTime.inSeconds},'
+        '${arrivalTime.inSeconds},'
         '${decision?.name ?? Decision.leave.name},'
-        '${Helpers.durationToString(queueExitTime! - arrivalTime)},'
-        '${Helpers.durationToString(serviceTime!)}\n';
+        '${hasRageQuitted},'
+        '${(queueExitTime! - arrivalTime).inSeconds},'
+        '${serviceTime!.inSeconds},'
+        '${(serviceTime! + (queueExitTime! - arrivalTime)).inSeconds}\n';
   }
 
   @override
